@@ -4,47 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#00FF00">
-    <title>20Y PULSE v9.6</title>
+    <title>20Y PULSE v10.0</title>
     <link rel="manifest" href="manifest.json">
+    <link id="font-link" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style id="dynamic-theme">
+        /* Tema se inyecta aquí por JS */
+    </style>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', monospace; }
-        body { background: #000; color: #00FF00; padding: 20px; }
-       .header { text-align: center; font-size: 28px; margin: 20px 0; font-weight: bold; }
-       .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-       .tabs-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-       .tab { border: 2px solid #00FF00; padding: 12px; text-align: center; cursor: pointer; background: #000; }
-       .tab.active { background: #00FF00; color: #000; font-weight: bold; }
-       .content { border: 2px solid #00FF00; padding: 20px; border-radius: 8px; }
-       .title { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
-        input, select, button, textarea { width: 100%; background: #000; border: 2px solid #00FF00; color: #00FF00; padding: 12px; margin: 8px 0; font-size: 16px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { padding: 20px; min-height: 100vh; transition: all 0.3s ease; }
+        .header { text-align: center; font-size: 28px; margin: 20px 0; font-weight: bold; transition: all 0.3s ease; }
+        .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .tabs-2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .tab { padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+        .tab.active { font-weight: bold; }
+        .content { padding: 20px; border-radius: 8px; transition: all 0.3s ease; }
+        .title { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
+        input, select, button, textarea { width: 100%; padding: 12px; margin: 8px 0; font-size: 16px; border-radius: 8px; transition: all 0.3s ease; }
         button { cursor: pointer; font-weight: bold; }
-        button.primary { background: #00FF00; color: #000; }
-        button.secondary { background: #333; border-color: #333; }
-        button.danger { background: #330000; border-color: #FF0000; color: #FF0000; }
-        button.like { background: #001100; border-color: #FF00FF; color: #FF00FF; font-size: 14px; padding: 8px; width: auto; }
-        button.like.active { background: #FF00FF; color: #000; }
-       .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-       .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-       .footer { text-align: center; margin-top: 30px; font-size: 14px; opacity: 0.8; }
-       .hidden { display: none; }
-       .objetivo { border: 2px solid #00FF00; padding: 15px; margin: 15px 0; border-radius: 8px; }
-       .obj-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-       .progress { width: 100%; height: 8px; background: #333; margin: 10px 0; }
-       .progress-bar { height: 100%; background: #00FF00; }
-       .animo-btn { font-size: 30px; padding: 8px; border: 2px solid #00FF00; background: #000; }
-       .animo-btn.selected { background: #00FF00; color: #000; }
-       .coach-msg { border-left: 4px solid #00FF00; padding: 15px; margin: 15px 0; background: #001100; }
-       .spith-box { border-left: 4px solid #00FF00; padding: 15px; margin: 15px 0; background: #001100; font-style: italic; font-size: 18px; line-height: 1.5; }
-       .plan-box { border: 2px solid #00FF00; padding: 15px; margin: 15px 0; }
-       .orden-box { border: 2px solid #FF0000; padding: 15px; margin: 15px 0; background: #110000; }
-       .consejo-item { border: 2px solid #00FF00; padding: 15px; margin: 15px 0; }
-       .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
-       .stat-line { display: flex; justify-content: space-between; margin: 5px 0; }
-       .hr { border-top: 1px solid #00FF00; margin: 20px 0; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .footer { text-align: center; margin-top: 30px; font-size: 14px; opacity: 0.8; }
+        .hidden { display: none; }
+        .objetivo { padding: 15px; margin: 15px 0; border-radius: 8px; }
+        .obj-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .progress { width: 100%; height: 8px; margin: 10px 0; border-radius: 4px; overflow: hidden; }
+        .progress-bar { height: 100%; transition: width 0.3s ease; }
+        .animo-btn { font-size: 30px; padding: 8px; }
+        .coach-msg { padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .spith-box { padding: 15px; margin: 15px 0; font-style: italic; font-size: 18px; line-height: 1.5; border-radius: 0 8px 8px 0; }
+        .plan-box { padding: 15px; margin: 15px 0; border-radius: 8px; }
+        .orden-box { padding: 15px; margin: 15px 0; border-radius: 8px; }
+        .consejo-item { padding: 15px; margin: 15px 0; border-radius: 8px; }
+        .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
+        .stat-line { display: flex; justify-content: space-between; margin: 5px 0; padding: 8px 0; }
+        .hr { margin: 20px 0; }
+        .paywall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .paywall-box { padding: 30px; text-align: center; max-width: 400px; border-radius: 16px; }
+        .theme-card { border: 2px solid; padding: 20px; margin: 15px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }
+        .theme-card:hover { transform: translateY(-4px); }
+        .theme-card.active { box-shadow: 0 0 30px; }
+        .theme-preview { width: 100%; height: 80px; border-radius: 8px; margin: 10px 0; }
     </style>
 </head>
 <body>
-    <div class="header">20Y PULSE</div>
+    <div id="paywall" class="paywall hidden">
+        <div class="paywall-box">
+            <div style="font-size:24px;font-weight:bold;margin-bottom:20px;">⚡ TRIAL 20Y TERMINADO</div>
+            <div style="margin-bottom:20px;">Tus 7 días gratis expiraron.<br><br>Desbloquea 20Y PULSE PRO:</div>
+            <div style="text-align:left;margin:20px 0;">
+                ✅ Objetivos ilimitados<br>
+                ✅ Plan Estratégico 72h<br>
+                ✅ Coach IA ilimitado<br>
+                ✅ Temas Premium<br>
+                ✅ Exportar PDF
+            </div>
+            <div style="font-size:28px;margin:20px 0;">$9.99/mes</div>
+            <button class="primary" onclick="alert('Stripe: Conecta tu cuenta en Render Dashboard > Environment > STRIPE_KEY')">DESBLOQUEAR PRO</button>
+            <div style="font-size:12px;margin-top:20px;opacity:0.7;">20Y CORE SYSTEMS</div>
+        </div>
+    </div>
+
+    <div class="header">20Y PULSE <span id="trial-badge" style="font-size:14px;"></span></div>
     
     <div class="tabs">
         <div class="tab active" onclick="showTab('usuario')">USUARIO</div>
@@ -54,6 +75,7 @@
     <div class="tabs-2">
         <div class="tab" onclick="showTab('ejecucion')">EJECUCIÓN</div>
         <div class="tab" onclick="showTab('coach')">COACH</div>
+        <div class="tab" onclick="showTab('tema')">TEMA</div>
     </div>
 
     <div id="usuario" class="content">
@@ -77,6 +99,7 @@
         </div>
         <input type="text" id="power" placeholder="Power %" value="98%">
         <button class="primary" onclick="guardarUsuario()">GUARDAR</button>
+        <button class="share" onclick="compartirPerfil()">📤 INVITAR A MI EQUIPO 20Y</button>
     </div>
 
     <div id="objetivos" class="content hidden">
@@ -106,6 +129,7 @@
         </select>
         <button class="primary" id="btn-notif" onclick="activarNotificaciones()">ACTIVAR NOTIFICACIONES</button>
         <button class="secondary" onclick="generarSpith()">GENERAR SPITH AHORA</button>
+        <button class="share" onclick="compartirSpith()">📤 COMPARTIR SPITH</button>
     </div>
 
     <div id="ejecucion" class="content hidden">
@@ -114,6 +138,7 @@
         <div class="stat-line"><span>Objetivos activos:</span><span id="obj-activos">3</span></div>
         <div class="stat-line"><span>Completados:</span><span id="obj-completados">2</span></div>
         <div class="stat-line"><span>Stability:</span><span id="stability">98%</span></div>
+        <div class="stat-line"><span>Referidos:</span><span id="referidos">0</span></div>
         
         <div class="plan-box hidden" id="plan-estrategico">
             <div style="font-weight:bold;margin-bottom:10px;">📋 PLAN ESTRATÉGICO 20Y</div>
@@ -121,13 +146,14 @@
         </div>
 
         <div class="orden-box hidden" id="orden-dia">
-            <div style="font-weight:bold;margin-bottom:10px;color:#FF0000;">⚡ ORDEN DEL DÍA</div>
+            <div style="font-weight:bold;margin-bottom:10px;">⚡ ORDEN DEL DÍA</div>
             <div id="orden-contenido"></div>
         </div>
 
         <button class="primary" onclick="generarOrden()">GENERAR ORDEN DE EJECUCIÓN</button>
         <button class="primary" onclick="generarPlan()">GENERAR PLAN ESTRATÉGICO</button>
         <button class="secondary" onclick="marcarCumplida()">MARCAR ORDEN CUMPLIDA +10 PUNTOS</button>
+        <button class="share" onclick="compartirLogro()">📤 COMPARTIR LOGRO 20Y</button>
     </div>
 
     <div id="coach" class="content hidden">
@@ -144,6 +170,29 @@
         <div id="historial-coach"></div>
     </div>
 
+    <div id="tema" class="content hidden">
+        <div class="title">TEMA 20Y PULSE</div>
+        <div style="margin-bottom:20px;">Elige el fondo y tipografía que refleje tu perfil 20Y:</div>
+        
+        <div class="title" style="font-size:16px;margin-top:20px;">1. TIPOGRAFÍA</div>
+        <select id="select-font" onchange="cambiarFont(this.value)">
+            <option value="Space Grotesk">Space Grotesk - Premium CEO</option>
+            <option value="JetBrains Mono">JetBrains Mono - Hacker Táctico</option>
+            <option value="Courier New">Courier New - Terminal Clásico</option>
+            <option value="Inter">Inter - Minimal Moderno</option>
+        </select>
+        
+        <div class="title" style="font-size:16px;margin-top:20px;">2. FONDO</div>
+        <div id="lista-temas"></div>
+        
+        <div class="title" style="font-size:16px;margin-top:20px;">3. HOVER EFFECTS</div>
+        <select id="select-hover" onchange="cambiarHover(this.value)">
+            <option value="glow">Glow Dorado - Premium</option>
+            <option value="lift">Lift 3D - Táctico</option>
+            <option value="none">Sin efectos - Minimal</option>
+        </select>
+    </div>
+
     <div class="footer">
         20Y CORE SYSTEMS<br>
         SALT, GIRONA, SPAIN
@@ -155,30 +204,236 @@
         let puntos = 50;
         let consejos = [];
         let consejoActualId = null;
+        let referidos = 0;
+        let temaActual = 'ceo';
+        let fontActual = 'Space Grotesk';
+        let hoverActual = 'glow';
         
-        const LEMAS_SPITH = [
-            "Yo soy {nombre}. Mi código es ejecución sobre excusas. Cada día cazo mi presa. No pido permiso. No espero validación. Yo creo mi imperio. 20Y.",
-            "Mírate al espejo {nombre}. Ese es tu único competidor. Hoy le ganas. Power {power}. Ratio {ratio}. Leyenda activada.",
-            "Soy {perfil} 20Y. Mi estado no depende del mercado. Yo soy el mercado. Respiro. Ejecuto. Domino. Siguiente.",
-            "El miedo es para los que piden. Yo tomo. {nombre}, {edad} años de fuego. 2/3 cazados no es suficiente. Hoy voy por el 3/3.",
-            "No soy producto de las circunstancias. Soy causa. Soy {nombre}. Mi palabra es contrato. Mi ejecución es religión. 20Y CORE."
-        ];
+        const TEMAS = {
+            ceo: {
+                nombre: 'CEO PREMIUM',
+                desc: 'Oro + Negro. Poder silencioso.',
+                bg: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)',
+                color: '#E0E0E0',
+                accent: '#FFD700',
+                accent2: '#FFA500',
+                border: 'rgba(255, 215, 0, 0.3)',
+                card: 'rgba(26, 26, 26, 0.6)',
+                shadow: '0 0 30px rgba(255, 215, 0, 0.4)'
+            },
+            tactico: {
+                nombre: 'OPERATOR TÁCTICO',
+                desc: 'Verde militar. War room.',
+                bg: '#0D1117',
+                color: '#C9D1D9',
+                accent: '#39FF14',
+                accent2: '#FF3131',
+                border: 'rgba(57, 255, 20, 0.3)',
+                card: 'rgba(13, 17, 23, 0.8)',
+                shadow: '0 0 20px rgba(57, 255, 20, 0.3)'
+            },
+            minimal: {
+                nombre: 'LEYENDA MINIMAL',
+                desc: 'Negro puro. Brutalista.',
+                bg: '#000000',
+                color: '#00FF00',
+                accent: '#00FF00',
+                accent2: '#00FF00',
+                border: 'rgba(0, 255, 0, 0.5)',
+                card: 'rgba(0, 0, 0, 0.8)',
+                shadow: '0 0 15px rgba(0, 255, 0, 0.3)'
+            }
+        };
+        
+        const LEMAS_SPITH = {
+            CEO: [
+                "Soy {nombre}. CEO 20Y. No gestiono, domino. Mi empresa no espera mercado: lo crea. {completados}/{total} ejecutado. El imperio no se detiene.",
+                "Power {power}. Ratio {ratio}. Yo no pido reuniones, las convoco. Hoy mato 1 decisión que mueva millones. CEO Mode.",
+                "El miedo es KPI de los débiles. Yo opero en {edad} años de guerra. Mi palabra mueve capital. Ejecuta o muere. 20Y CORE."
+            ],
+            Financista: [
+                "Soy {nombre}. Financista 20Y. Veo dinero donde otros ven riesgo. {completados}/{total} trades cerrados. Hoy cazo alpha.",
+                "Power {power}. Ratio {ratio}. Mi olfato huele ROI. Capital sin ejecución es papel. Yo convierto ambos en imperio.",
+                "El mercado es mi tablero. {edad} años afinando instinto. Hoy 1 inversión que 99% no verá. Killer instinct."
+            ],
+            Trader: [
+                "Soy {nombre}. Trader 20Y. Entro cuando dudan, salgo cuando celebran. {completados}/{total} setups cazados. Sniper.",
+                "Power {power}. Ratio {ratio}. Mi stop es disciplina, mi take profit es gloria. Hoy 1 trade quirúrgico.",
+                "La paciencia es mi arma. {edad} años en la trinchera. No opero por aburrimiento. Opero para matar. 20Y PULSE."
+            ],
+            Builder: [
+                "Soy {nombre}. Builder 20Y. No uso herramientas: las creo. {completados}/{total} sistemas shippeados. Arquitecto.",
+                "Power {power}. Ratio {ratio}. Mi código es ladrillo, mi visión es catedral. Hoy construyo 1 cosa que dure 100 años.",
+                "Otros hablan de features. Yo construyo imperios. {edad} años soldando. 20Y CORE SYSTEMS."
+            ],
+            DEFAULT: [
+                "Yo soy {nombre}. Mi código es ejecución sobre excusas. Cada día cazo mi presa. No pido permiso. No espero validación. Yo creo mi imperio. 20Y.",
+                "Mírate al espejo {nombre}. Ese es tu único competidor. Hoy le ganas. Power {power}. Ratio {ratio}. Leyenda activada."
+            ]
+        };
 
-        const CONSEJOS_20Y = [
-            "{puntos} 20Y. Ya probaste que funcionas. Próximo nivel: convierte 20Y PULSE en activo vendible. 72h.",
-            "Stability {stability}. {completados} objetivos cazados. Tu debilidad: {perfil} sin sistema. Solución: 1 proceso diario blindado.",
-            "Ánimo {animo}. La emoción es data, no orden. Ejecuta la orden del día aunque no tengas ganas. Disciplina > Motivación.",
-            "Ratio {ratio}. Power {power}. Estás en top 1%. Ahora el juego es mental: elimina 3 distracciones hoy. Enfoque láser.",
-            "Cerebro 20Y detecta: {activos} objetivos activos = dispersión. Elige 1. Mátalo. Luego el siguiente. Foco mata ruido.",
-            "Samuel, {edad} años no es excusa. Es ventaja. Experiencia + Ejecución = Imparable. Hoy: 1 acción que tu yo de 20 no haría."
-        ];
+        const CONSEJOS_20Y = {
+            CEO: [
+                "Stability {stability}. {completados} ejecutados. CEO sin equipo alineado es suicidio. Hoy: 1 decisión que solo tú puedes tomar. Delega el resto.",
+                "Power {power}. Tu ventaja no es trabajar más. Es decidir mejor. Elimina 3 reuniones esta semana. CEO = foco.",
+                "Ánimo {animo}. Un CEO no espera motivación. La fabrica. Tu energía es el KPI de la empresa. Sube a ÓPTIMO o paras."
+            ],
+            Financista: [
+                "Stability {stability}. {completados} deals. Financista sin liquidez es poeta. Hoy: asegura 1 línea de crédito o entrada de cash.",
+                "Power {power}. No enamores de posiciones. Tu única lealtad es al ROI. Corta 1 pérdida hoy. Frialdad mata drawdown.",
+                "Ánimo {animo}. El mercado no debe mover tu ánimo. Tu sistema sí. Revisa 1 tesis. ¿Sigue válida? Ejecuta."
+            ],
+            DEFAULT: [
+                "{puntos} 20Y. Ya probaste que funcionas. Próximo nivel: convierte 20Y PULSE en activo vendible. 72h.",
+                "Stability {stability}. {completados} objetivos cazados. Tu debilidad: {perfil} sin sistema. Solución: 1 proceso diario blindado."
+            ]
+        };
 
         window.onload = () => {
+            checkTrial();
+            checkReferral();
+            cargarTema();
             cargarDatos();
             checkNotificaciones();
             actualizarStats();
             renderHistorialCoach();
+            renderTemas();
         };
+
+        function cargarTema() {
+            temaActual = localStorage.getItem('20y_tema') || 'ceo';
+            fontActual = localStorage.getItem('20y_font') || 'Space Grotesk';
+            hoverActual = localStorage.getItem('20y_hover') || 'glow';
+            aplicarTema();
+        }
+
+        function aplicarTema() {
+            const t = TEMAS[temaActual];
+            const fontUrl = fontActual.replace(' ', '+');
+            document.getElementById('font-link').href = `https://fonts.googleapis.com/css2?family=${fontUrl}:wght@400;700&display=swap`;
+            
+            let css = `
+                body { 
+                    background: ${t.bg}; 
+                    color: ${t.color}; 
+                    font-family: '${fontActual}', monospace;
+                }
+                body::before {
+                    content: '';
+                    position: fixed;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background-image: 
+                        radial-gradient(circle at 20% 50%, ${t.accent}08 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, ${t.accent2}05 0%, transparent 50%);
+                    pointer-events: none;
+                    z-index: -1;
+                }
+                .header { color: ${t.accent}; text-shadow: 0 0 20px ${t.accent}4D; }
+                .tab { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(10px); }
+                .tab:hover { border-color: ${t.accent}; background: ${t.accent}1A; }
+                .tab.active { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; box-shadow: ${t.shadow}; }
+                .content { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+                .title { color: ${t.accent}; }
+                input, select, textarea { background: rgba(0, 0, 0, 0.4); border: 1px solid ${t.border}; color: ${t.color}; }
+                input:focus, select:focus, textarea:focus { outline: none; border-color: ${t.accent}; box-shadow: 0 0 15px ${t.accent}33; }
+                button.primary { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; border: none; box-shadow: 0 4px 15px ${t.accent}4D; }
+                button.primary:hover { box-shadow: 0 6px 25px ${t.accent}80; transform: translateY(-2px); }
+                button.secondary { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
+                button.danger { background: rgba(255, 49, 49, 0.1); border-color: #FF3131; color: #FF3131; }
+                button.like { background: rgba(255, 0, 255, 0.1); border-color: #FF00FF; color: #FF00FF; }
+                button.like.active { background: #FF00FF; color: #000; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+                button.share { background: rgba(0, 136, 255, 0.1); border-color: #0088FF; color: #0088FF; }
+                .objetivo { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); }
+                .progress { background: rgba(255, 255, 255, 0.1); }
+                .progress-bar { background: linear-gradient(90deg, ${t.accent} 0%, ${t.accent2} 100%); box-shadow: 0 0 10px ${t.accent}80; }
+                .animo-btn { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
+                .animo-btn.selected { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; box-shadow: ${t.shadow}; }
+                .coach-msg { border-left: 3px solid ${t.accent}; background: ${t.accent}0D; }
+                .spith-box { border-left: 3px solid ${t.accent}; background: ${t.accent}0D; }
+                .plan-box { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
+                .orden-box { border: 1px solid #FF3131; background: rgba(255, 49, 49, 0.05); box-shadow: 0 0 20px rgba(255, 49, 49, 0.2); }
+                .consejo-item { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
+                .stat-line { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+                .hr { border-top: 1px solid ${t.border}; }
+                .paywall { background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); }
+                .paywall-box { border: 2px solid ${t.accent}; background: rgba(26, 26, 26, 0.9); box-shadow: 0 0 60px ${t.accent}4D; }
+                .theme-card { border-color: ${t.border}; background: ${t.card}; }
+                .theme-card.active { border-color: ${t.accent}; box-shadow: ${t.shadow}; }
+            `;
+            
+            if(hoverActual === 'glow') {
+                css += `.tab:hover, button:hover { box-shadow: ${t.shadow}; }`;
+            } else if(hoverActual === 'lift') {
+                css += `.tab:hover, button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }`;
+            }
+            
+            document.getElementById('dynamic-theme').innerHTML = css;
+        }
+
+        function cambiarTema(nuevo) {
+            temaActual = nuevo;
+            localStorage.setItem('20y_tema', nuevo);
+            aplicarTema();
+            renderTemas();
+        }
+
+        function cambiarFont(nueva) {
+            fontActual = nueva;
+            localStorage.setItem('20y_font', nueva);
+            aplicarTema();
+        }
+
+        function cambiarHover(nuevo) {
+            hoverActual = nuevo;
+            localStorage.setItem('20y_hover', nuevo);
+            aplicarTema();
+        }
+
+        function renderTemas() {
+            const lista = document.getElementById('lista-temas');
+            lista.innerHTML = '';
+            Object.keys(TEMAS).forEach(key => {
+                const t = TEMAS[key];
+                const active = key === temaActual ? 'active' : '';
+                lista.innerHTML += `
+                    <div class="theme-card ${active}" onclick="cambiarTema('${key}')">
+                        <div style="font-weight:bold;font-size:18px;">${t.nombre}</div>
+                        <div style="font-size:14px;opacity:0.7;margin:8px 0;">${t.desc}</div>
+                        <div class="theme-preview" style="background:${t.bg};border:1px solid ${t.border};"></div>
+                    </div>
+                `;
+            });
+            document.getElementById('select-font').value = fontActual;
+            document.getElementById('select-hover').value = hoverActual;
+        }
+
+        function checkTrial() {
+            const firstUse = localStorage.getItem('20y_first_use');
+            if(!firstUse) {
+                localStorage.setItem('20y_first_use', Date.now());
+                document.getElementById('trial-badge').innerText = '(Día 1/7 GRATIS)';
+                return;
+            }
+            const days = Math.floor((Date.now() - parseInt(firstUse)) / 86400000);
+            if(days >= 7 &&!localStorage.getItem('20y_pro')) {
+                document.getElementById('paywall').classList.remove('hidden');
+            } else {
+                document.getElementById('trial-badge').innerText = `(Día ${days+1}/7 GRATIS)`;
+            }
+        }
+
+        function checkReferral() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('ref');
+            if(ref &&!localStorage.getItem('20y_referred')) {
+                localStorage.setItem('20y_referred', ref);
+                puntos += 10;
+                referidos = parseInt(localStorage.getItem('20y_referidos') || '0') + 1;
+                localStorage.setItem('20y_referidos', referidos);
+                alert(`+10 PUNTOS 20Y. Invitado por ${ref}`);
+            }
+            referidos = parseInt(localStorage.getItem('20y_referidos') || '0');
+        }
 
         function cargarDatos() {
             const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
@@ -231,271 +486,4 @@
 
         function updateCoachMsg() {
             const msg = document.getElementById('coach-msg');
-            if(!animo) { msg.classList.add('hidden'); return; }
-            msg.classList.remove('hidden');
-            const frases = {
-                bajo: '😢 ÁNIMO BAJO DETECTADO. PROTOCOLO 20Y: 1. Respira 3 veces. 2. Haz 1 micro-ejecución AHORA. 3. Sube a ÓPTIMO. NO HAY EXCUSAS.',
-                medio: '😐 ÁNIMO MEDIO. ESTÁS A 1 DECISIÓN DE ÓPTIMO. Elige 1 objetivo y márcalo +1. EJECUCIÓN > EMOCIÓN.',
-                alto: '🚀 ÁNIMO ALTO = MODO LEYENDA ACTIVO. Aprovecha el pulse. Doble ejecución hoy. DOMINA.'
-            };
-            msg.innerHTML = '<b>COACH 20Y:</b><br>' + frases[animo];
-        }
-
-        function nuevoObjetivo() {
-            const nombre = prompt('Nombre del objetivo:');
-            if(!nombre) return;
-            const cat = prompt('Categoría: Finanzas, Personal, Salud, etc:');
-            const porque = prompt('¿Por qué es importante para ti?:');
-            objetivos.push({id:Date.now(), nombre, cat, porque, actual:0, meta:1});
-            saveObjetivos();
-        }
-
-        function renderObjetivos() {
-            const lista = document.getElementById('lista-objetivos');
-            lista.innerHTML = '';
-            objetivos.forEach((obj, i) => {
-                const pct = Math.min(100, (obj.actual/obj.meta)*100);
-                lista.innerHTML += `
-                <div class="objetivo">
-                    <div class="obj-header"><b>${obj.nombre}</b><span>${obj.cat}</span></div>
-                    <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
-                    <div class="row-3">
-                        <button class="secondary" onclick="sumarObj(${i})">+1</button>
-                        <button class="secondary" onclick="editarObj(${i})">EDITAR</button>
-                        <button class="danger" onclick="borrarObj(${i})">X</button>
-                    </div>
-                    <div style="margin-top:10px;font-size:14px;">${obj.actual}/${obj.meta} - ${obj.porque}</div>
-                </div>`;
-            });
-            actualizarStats();
-        }
-
-        function sumarObj(i) {
-            objetivos[i].actual++;
-            saveObjetivos();
-            if(objetivos[i].actual >= objetivos[i].meta) alert('🎯 OBJETIVO COMPLETADO: ' + objetivos[i].nombre);
-        }
-        function editarObj(i) {
-            const meta = prompt('Nueva meta:', objetivos[i].meta);
-            if(meta) objetivos[i].meta = parseInt(meta);
-            saveObjetivos();
-        }
-        function borrarObj(i) {
-            if(confirm('¿Borrar objetivo?')) {
-                objetivos.splice(i,1);
-                saveObjetivos();
-            }
-        }
-        function saveObjetivos() {
-            localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
-            renderObjetivos();
-        }
-        function revision20Y() {
-            const completados = objetivos.filter(o => o.actual >= o.meta).length;
-            alert(`REVISIÓN 20Y:\n${completados}/${objetivos.length} objetivos completados\nÁnimo actual: ${animo.toUpperCase()}\n\nSIGUIENTE ACCIÓN: ${animo=='bajo'? 'Sube tu ánimo YA' : 'Ejecuta el siguiente objetivo'}`);
-        }
-
-        function generarSpith() {
-            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
-            const cazados = objetivos.filter(o => o.actual >= o.meta).length;
-            const total = objetivos.length || 1;
-            let lema = LEMAS_SPITH[Math.floor(Math.random() * LEMAS_SPITH.length)];
-            lema = lema.replace('{nombre}', user.nombre || 'Leyenda')
-                    .replace('{perfil}', user.perfil || 'CEO')
-                    .replace('{edad}', user.edad || '50')
-                    .replace('{power}', user.power || '98%')
-                    .replace('{ratio}', user.ratio || '4/4');
-            const spithCompleto = `${lema}\n\n${cazados}/${total} objetivos cazados hoy. No pares ahora.`;
-            document.getElementById('spith-texto').innerText = spithCompleto;
-            localStorage.setItem('20y_spith_actual', spithCompleto);
-        }
-
-        function activarNotificaciones() {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    checkNotificaciones();
-                    navigator.serviceWorker.ready.then(reg => {
-                        reg.showNotification('20Y SPITH ACTIVADO', {
-                            body: 'Recibirás tu lema 20Y diario a las ' + document.getElementById('spith-hora').value,
-                            icon: 'icon-192.png',
-                            badge: 'icon-192.png'
-                        });
-                    });
-                    localStorage.setItem('20y_notif_hora', document.getElementById('spith-hora').value);
-                    alert('NOTIFICACIÓN PROGRAMADA A LAS ' + document.getElementById('spith-hora').value);
-                } else {
-                    alert('Permiso denegado. Actívalo en Ajustes > Notificaciones');
-                }
-            });
-        }
-
-        function checkNotificaciones() {
-            if(Notification.permission === 'granted') {
-                document.getElementById('btn-notif').innerText = 'NOTIFICACIONES ACTIVAS';
-            }
-        }
-
-        function actualizarStats() {
-            const activos = objetivos.filter(o => o.actual < o.meta).length;
-            const completados = objetivos.filter(o => o.actual >= o.meta).length;
-            const stability = Math.min(100, 50 + (completados * 10) - (activos * 5));
-            document.getElementById('puntos').innerText = puntos;
-            document.getElementById('obj-activos').innerText = activos;
-            document.getElementById('obj-completados').innerText = completados;
-            document.getElementById('stability').innerText = stability + '%';
-        }
-
-        function generarPlan() {
-            const activos = objetivos.filter(o => o.actual < o.meta);
-            if(activos.length === 0) {
-                alert('NO HAY OBJETIVOS ACTIVOS. Crea uno en la pestaña OBJETIVOS.');
-                return;
-            }
-            const obj = activos[0];
-            const plan = `
-                <div><b>Enfoque 72h para subir Stability Score:</b></div>
-                <div style="margin:10px 0;"><b>1. Paso 1 - CLARIDAD:</b> Define exactamente qué significa "${obj.nombre}". Métrica: de ${obj.actual} a ${obj.actual + 1}. Razón: ${obj.porque}</div>
-                <div style="margin:10px 0;"><b>2. Paso 2 - ACCIÓN MÍNIMA:</b> Ejecuta 1 unidad HOY. Sin perfección. Solo movimiento. Categoría: ${obj.cat}</div>
-                <div style="margin:10px 0;"><b>3. Paso 3 - REVISIÓN 24H:</b> Mañana marca +1 si ejecutaste. Ajusta meta si hace falta. Sin culpa, solo data.</div>
-                <div style="margin-top:15px;"><b>Ejecuta Paso 1 hoy. Sin distracciones.</b></div>
-            `;
-            document.getElementById('plan-contenido').innerHTML = plan;
-            document.getElementById('plan-estrategico').classList.remove('hidden');
-            localStorage.setItem('20y_plan', plan);
-        }
-
-        function generarOrden() {
-            const activos = objetivos.filter(o => o.actual < o.meta);
-            if(activos.length === 0) {
-                alert('NO HAY OBJETIVOS ACTIVOS. Crea uno en la pestaña OBJETIVOS.');
-                return;
-            }
-            const obj = activos[0];
-            const orden = `HOY: Avanza 1 unidad en "${obj.nombre}". Actual: ${obj.actual}/${obj.meta}. Categoría: ${obj.cat}. No hay excusas.`;
-            document.getElementById('orden-contenido').innerHTML = orden;
-            document.getElementById('orden-dia').classList.remove('hidden');
-            localStorage.setItem('20y_orden', orden);
-            
-            if(Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification('⚡ ORDEN DEL DÍA 20Y', {
-                        body: orden,
-                        icon: 'icon-192.png',
-                        badge: 'icon-192.png',
-                        tag: 'orden-20y',
-                        requireInteraction: true
-                    });
-                });
-            }
-        }
-
-        function marcarCumplida() {
-            puntos += 10;
-            localStorage.setItem('20y_puntos', puntos);
-            actualizarStats();
-            const activos = objetivos.filter(o => o.actual < o.meta);
-            if(activos.length > 0) {
-                activos[0].actual++;
-                saveObjetivos();
-            }
-            alert('+10 PUNTOS 20Y. EJECUCIÓN COMPLETADA.');
-            if(Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification('✅ ORDEN CUMPLIDA', {
-                        body: `+10 Puntos 20Y. Total: ${puntos}. Siguiente orden lista.`,
-                        icon: 'icon-192.png'
-                    });
-                });
-            }
-        }
-
-        function generarConsejo() {
-            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
-            const activos = objetivos.filter(o => o.actual < o.meta).length;
-            const completados = objetivos.filter(o => o.actual >= o.meta).length;
-            const stability = Math.min(100, 50 + (completados * 10) - (activos * 5));
-            
-            let consejo = CONSEJOS_20Y[Math.floor(Math.random() * CONSEJOS_20Y.length)];
-            consejo = consejo.replace('{puntos}', puntos)
-                         .replace('{stability}', stability + '%')
-                         .replace('{completados}', completados)
-                         .replace('{activos}', activos)
-                         .replace('{animo}', animo || 'neutro')
-                         .replace('{perfil}', user.perfil || 'CEO')
-                         .replace('{ratio}', user.ratio || '4/4')
-                         .replace('{power}', user.power || '98%')
-                         .replace('{edad}', user.edad || '50');
-            
-            const id = Date.now();
-            consejoActualId = id;
-            document.getElementById('consejo-texto').innerText = consejo;
-            document.getElementById('btn-like').classList.remove('hidden');
-            document.getElementById('btn-like').classList.remove('active');
-            
-            consejos.unshift({id, fecha: new Date().toLocaleString('es-ES'), texto: consejo, like: false});
-            if(consejos.length > 10) consejos.pop();
-            localStorage.setItem('20y_consejos', JSON.stringify(consejos));
-            renderHistorialCoach();
-            
-            if(Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification('🧠 CONSEJO TÁCTICO 20Y', {
-                        body: consejo.substring(0, 100) + '...',
-                        icon: 'icon-192.png',
-                        badge: 'icon-192.png',
-                        tag: 'consejo-20y'
-                    });
-                });
-            }
-        }
-
-        function darLike() {
-            const btn = document.getElementById('btn-like');
-            const consejo = consejos.find(c => c.id === consejoActualId);
-            if(consejo) {
-                consejo.like =!consejo.like;
-                btn.classList.toggle('active');
-                btn.innerText = consejo.like? '❤️ TE GUSTA' : '❤️ ME GUSTA';
-                localStorage.setItem('20y_consejos', JSON.stringify(consejos));
-                renderHistorialCoach();
-            }
-        }
-
-        function renderHistorialCoach() {
-            const historial = document.getElementById('historial-coach');
-            historial.innerHTML = '';
-            consejos.forEach(c => {
-                historial.innerHTML += `
-                <div class="consejo-item">
-                    <div class="consejo-header">
-                        <span>${c.fecha}</span>
-                        <button class="like ${c.like? 'active' : ''}" onclick="toggleLike(${c.id})">${c.like? '❤️' : '🤍'}</button>
-                    </div>
-                    <div>${c.texto}</div>
-                </div>`;
-            });
-        }
-
-        function toggleLike(id) {
-            const consejo = consejos.find(c => c.id === id);
-            if(consejo) {
-                consejo.like =!consejo.like;
-                localStorage.setItem('20y_consejos', JSON.stringify(consejos));
-                renderHistorialCoach();
-            }
-        }
-
-        function borrarHistorial() {
-            if(confirm('¿Borrar todo el historial de consejos?')) {
-                consejos = [];
-                localStorage.setItem('20y_consejos', JSON.stringify(consejos));
-                renderHistorialCoach();
-            }
-        }
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
-        }
-    </script>
-</body>
-</html>
+            if(!animo)
