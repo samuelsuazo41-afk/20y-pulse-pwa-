@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00FF00">
+<title>20Y PULSE v9.0 LEYENDA</title>
+<style>
+body{background:#000;color:#0f0;font-family:monospace;text-align:center;padding:50px}
+h1{font-size:2rem}
+</style>
+</head>
+<body>
+<h1>20Y PULSE v9.0 LEYENDA</h1>
+<p>Sistema de ejecución activo</p>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js');
+}
+</script>
+</body>
+</html>
