@@ -1,3 +1,4 @@
+
 const CACHE_NAME = '20y-pulse-v10-1';
 const urlsToCache = [
   './',
