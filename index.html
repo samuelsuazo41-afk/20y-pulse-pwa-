@@ -115,4 +115,415 @@
 
     <div id="objetivos" class="content hidden">
         <div class="title">OBJETIVOS Y METAS 20Y</div>
-       
+        <div class="title" style="font-size:16px;">ESTADO DE ÁNIMO HOY:</div>
+        <div class="row-3" style="margin-bottom:15px;">
+            <button class="animo-btn" id="animo-bajo" onclick="setAnimo('bajo')">😢<br>BAJO</button>
+            <button class="animo-btn" id="animo-medio" onclick="setAnimo('medio')">😐<br>MEDIO</button>
+            <button class="animo-btn" id="animo-alto" onclick="setAnimo('alto')">🚀<br>ALTO</button>
+        </div>
+        <div id="coach-msg" class="coach-msg hidden"></div>
+        <div id="lista-objetivos"></div>
+        <button class="primary" onclick="nuevoObjetivo()">+ NUEVO OBJETIVO</button>
+        <div class="hr"></div>
+        <div class="title">TEST DE REVISIÓN</div>
+        <button class="primary" onclick="revision20Y()">EJECUTAR REVISIÓN 20Y</button>
+    </div>
+
+    <div id="spith" class="content hidden">
+        <div class="title">20Y SPITH</div>
+        <div class="spith-box" id="spith-texto">Samuel Suazo, 2/3 cazados. 50 20Y. No pares ahora.</div>
+        <select id="spith-hora">
+            <option value="09:00">Diario 09:00h</option>
+            <option value="12:00">Diario 12:00h</option>
+            <option value="18:00">Diario 18:00h</option>
+            <option value="21:00">Diario 21:00h</option>
+        </select>
+        <button class="primary" id="btn-notif" onclick="activarNotificaciones()">ACTIVAR NOTIFICACIONES</button>
+        <button class="secondary" onclick="generarSpith()">GENERAR SPITH AHORA</button>
+        <button class="share" onclick="compartirSpith()">📤 COMPARTIR SPITH</button>
+    </div>
+
+    <div id="ejecucion" class="content hidden">
+        <div class="title">ORDEN DE EJECUCIÓN 20Y</div>
+        <div class="stat-line"><span>Puntos 20Y:</span><span id="puntos">50</span></div>
+        <div class="stat-line"><span>Objetivos activos:</span><span id="obj-activos">3</span></div>
+        <div class="stat-line"><span>Completados:</span><span id="obj-completados">2</span></div>
+        <div class="stat-line"><span>Stability:</span><span id="stability">98%</span></div>
+        <div class="stat-line"><span>Referidos:</span><span id="referidos">0</span></div>
+        
+        <div class="plan-box hidden" id="plan-estrategico">
+            <div style="font-weight:bold;margin-bottom:10px;">📋 PLAN ESTRATÉGICO 20Y</div>
+            <div id="plan-contenido"></div>
+        </div>
+
+        <div class="orden-box hidden" id="orden-dia">
+            <div style="font-weight:bold;margin-bottom:10px;">⚡ ORDEN DEL DÍA</div>
+            <div id="orden-contenido"></div>
+        </div>
+
+        <button class="primary" onclick="generarOrden()">GENERAR ORDEN DE EJECUCIÓN</button>
+        <button class="primary" onclick="generarPlan()">GENERAR PLAN ESTRATÉGICO</button>
+        <button class="secondary" onclick="marcarCumplida()">MARCAR ORDEN CUMPLIDA +10 PUNTOS</button>
+        <button class="share" onclick="compartirLogro()">📤 COMPARTIR LOGRO 20Y</button>
+    </div>
+
+    <div id="coach" class="content hidden">
+        <div class="title">COACH 20Y PULSE</div>
+        <div class="coach-msg" id="consejo-actual">
+            <div style="font-weight:bold;margin-bottom:10px;">🧠 CONSEJO TÁCTICO</div>
+            <div id="consejo-texto">Toca GENERAR CONSEJO para que el Cerebro 20Y analice tu estado.</div>
+            <button class="like hidden" id="btn-like" onclick="darLike()">❤️ ME GUSTA</button>
+        </div>
+        <button class="primary" onclick="generarConsejo()">GENERAR CONSEJO 20Y + NOTIFICAR</button>
+        <button class="secondary" onclick="borrarHistorial()">BORRAR HISTORIAL</button>
+        
+        <div class="title" style="margin-top:20px;">HISTORIAL COACH</div>
+        <div id="historial-coach"></div>
+    </div>
+
+    <div id="tema" class="content hidden">
+        <div class="title">TEMA 20Y PULSE</div>
+        <div style="margin-bottom:20px;">Elige el fondo y tipografía que refleje tu perfil 20Y:</div>
+        
+        <div class="title" style="font-size:16px;margin-top:20px;">1. TIPOGRAFÍA</div>
+        <select id="select-font" onchange="cambiarFont(this.value)">
+            <option value="Space Grotesk">Space Grotesk - Premium CEO</option>
+            <option value="JetBrains Mono">JetBrains Mono - Hacker Táctico</option>
+            <option value="Courier New">Courier New - Terminal Clásico</option>
+            <option value="Inter">Inter - Minimal Moderno</option>
+        </select>
+        
+        <div class="title" style="font-size:16px;margin-top:20px;">2. FONDO</div>
+        <div id="lista-temas"></div>
+        
+        <div class="title" style="font-size:16px;margin-top:20px;">3. HOVER EFFECTS</div>
+        <select id="select-hover" onchange="cambiarHover(this.value)">
+            <option value="glow">Glow Dorado - Premium</option>
+            <option value="lift">Lift 3D - Táctico</option>
+            <option value="none">Sin efectos - Minimal</option>
+        </select>
+    </div>
+
+    <div class="footer">
+        20Y CORE SYSTEMS<br>
+        SALT, GIRONA, SPAIN
+    </div>
+
+    <script>
+        let objetivos = [];
+        let animo = '';
+        let puntos = 50;
+        let consejos = [];
+        let consejoActualId = null;
+        let referidos = 0;
+        let temaActual = 'ceo';
+        let fontActual = 'Space Grotesk';
+        let hoverActual = 'glow';
+        
+        const TEMAS = {
+            ceo: {
+                nombre: 'CEO PREMIUM',
+                desc: 'Oro + Negro. Poder silencioso.',
+                bg: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)',
+                color: '#E0E0E0',
+                accent: '#FFD700',
+                accent2: '#FFA500',
+                border: 'rgba(255, 215, 0, 0.3)',
+                card: 'rgba(26, 26, 26, 0.6)',
+                shadow: '0 0 30px rgba(255, 215, 0, 0.4)'
+            },
+            tactico: {
+                nombre: 'OPERATOR TÁCTICO',
+                desc: 'Verde militar. War room.',
+                bg: '#0D1117',
+                color: '#C9D1D9',
+                accent: '#39FF14',
+                accent2: '#FF3131',
+                border: 'rgba(57, 255, 20, 0.3)',
+                card: 'rgba(13, 17, 23, 0.8)',
+                shadow: '0 0 20px rgba(57, 255, 20, 0.3)'
+            },
+            minimal: {
+                nombre: 'LEYENDA MINIMAL',
+                desc: 'Negro puro. Brutalista.',
+                bg: '#000000',
+                color: '#00FF00',
+                accent: '#00FF00',
+                accent2: '#00FF00',
+                border: 'rgba(0, 255, 0, 0.5)',
+                card: 'rgba(0, 0, 0, 0.8)',
+                shadow: '0 0 15px rgba(0, 255, 0, 0.3)'
+            }
+        };
+        
+        window.onload = () => {
+            checkTrial();
+            checkReferral();
+            cargarTema();
+            cargarDatos();
+            checkNotificaciones();
+            actualizarStats();
+            renderHistorialCoach();
+            renderTemas();
+        };
+
+        function cargarTema() {
+            temaActual = localStorage.getItem('20y_tema') || 'ceo';
+            fontActual = localStorage.getItem('20y_font') || 'Space Grotesk';
+            hoverActual = localStorage.getItem('20y_hover') || 'glow';
+            aplicarTema();
+        }
+
+        function aplicarTema() {
+            const t = TEMAS[temaActual];
+            const fontUrl = fontActual.replace(' ', '+');
+            document.getElementById('font-link').href = `https://fonts.googleapis.com/css2?family=${fontUrl}:wght@400;700&display=swap`;
+            
+            let css = `
+                body { 
+                    background: ${t.bg}; 
+                    color: ${t.color}; 
+                    font-family: '${fontActual}', monospace;
+                }
+                body::before {
+                    content: '';
+                    position: fixed;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background-image: 
+                        radial-gradient(circle at 20% 50%, ${t.accent}08 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, ${t.accent2}05 0%, transparent 50%);
+                    pointer-events: none;
+                    z-index: -1;
+                }
+                .header { color: ${t.accent}; text-shadow: 0 0 20px ${t.accent}4D; }
+                .tab { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(10px); }
+                .tab:hover { border-color: ${t.accent}; background: ${t.accent}1A; }
+                .tab.active { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; box-shadow: ${t.shadow}; }
+                .content { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+                .title { color: ${t.accent}; }
+                input, select, textarea { background: rgba(0, 0, 0, 0.4); border: 1px solid ${t.border}; color: ${t.color}; }
+                input:focus, select:focus, textarea:focus { outline: none; border-color: ${t.accent}; box-shadow: 0 0 15px ${t.accent}33; }
+                button.primary { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; border: none; box-shadow: 0 4px 15px ${t.accent}4D; }
+                button.primary:hover { box-shadow: 0 6px 25px ${t.accent}80; transform: translateY(-2px); }
+                button.secondary { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
+                button.danger { background: rgba(255, 49, 49, 0.1); border-color: #FF3131; color: #FF3131; }
+                button.like { background: rgba(255, 0, 255, 0.1); border-color: #FF00FF; color: #FF00FF; }
+                button.like.active { background: #FF00FF; color: #000; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+                button.share { background: rgba(0, 136, 255, 0.1); border-color: #0088FF; color: #0088FF; }
+                .objetivo { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); }
+                .progress { background: rgba(255, 255, 255, 0.1); }
+                .progress-bar { background: linear-gradient(90deg, ${t.accent} 0%, ${t.accent2} 100%); box-shadow: 0 0 10px ${t.accent}80; }
+                .animo-btn { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
+                .animo-btn.selected { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; box-shadow: ${t.shadow}; }
+                .coach-msg { border-left: 3px solid ${t.accent}; background: ${t.accent}0D; }
+                .spith-box { border-left: 3px solid ${t.accent}; background: ${t.accent}0D; }
+                .plan-box { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
+                .orden-box { border: 1px solid #FF3131; background: rgba(255, 49, 49, 0.05); box-shadow: 0 0 20px rgba(255, 49, 49, 0.2); }
+                .consejo-item { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
+                .stat-line { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+                .hr { border-top: 1px solid ${t.border}; }
+                .paywall { background: #000; }
+                .paywall-box { border: 2px solid ${t.accent}; background: rgba(26, 26, 26, 0.9); box-shadow: 0 0 60px ${t.accent}4D; }
+                .theme-card { border-color: ${t.border}; background: ${t.card}; }
+                .theme-card.active { border-color: ${t.accent}; box-shadow: ${t.shadow}; }
+            `;
+            
+            if(hoverActual === 'glow') {
+                css += `.tab:hover, button:hover { box-shadow: ${t.shadow}; }`;
+            } else if(hoverActual === 'lift') {
+                css += `.tab:hover, button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }`;
+            }
+            
+            document.getElementById('dynamic-theme').innerHTML = css;
+        }
+
+        function cambiarTema(nuevo) {
+            temaActual = nuevo;
+            localStorage.setItem('20y_tema', nuevo);
+            aplicarTema();
+            renderTemas();
+        }
+
+        function cambiarFont(nueva) {
+            fontActual = nueva;
+            localStorage.setItem('20y_font', nueva);
+            aplicarTema();
+        }
+
+        function cambiarHover(nuevo) {
+            hoverActual = nuevo;
+            localStorage.setItem('20y_hover', nuevo);
+            aplicarTema();
+        }
+
+        function renderTemas() {
+            const lista = document.getElementById('lista-temas');
+            lista.innerHTML = '';
+            Object.keys(TEMAS).forEach(key => {
+                const t = TEMAS[key];
+                const active = key === temaActual ? 'active' : '';
+                lista.innerHTML += `
+                    <div class="theme-card ${active}" onclick="cambiarTema('${key}')">
+                        <div style="font-weight:bold;font-size:18px;">${t.nombre}</div>
+                        <div style="font-size:14px;opacity:0.7;margin:8px 0;">${t.desc}</div>
+                        <div class="theme-preview" style="background:${t.bg};border:1px solid ${t.border};"></div>
+                    </div>
+                `;
+            });
+            document.getElementById('select-font').value = fontActual;
+            document.getElementById('select-hover').value = hoverActual;
+        }
+
+        function checkTrial() {
+            const firstUse = localStorage.getItem('20y_first_use');
+            if(!firstUse) {
+                localStorage.setItem('20y_first_use', Date.now());
+                document.getElementById('trial-badge').innerText = '(Día 1/7 GRATIS)';
+                return;
+            }
+            const days = Math.floor((Date.now() - parseInt(firstUse)) / 86400000);
+            if(days >= 7 &&!localStorage.getItem('20y_pro')) {
+                document.getElementById('paywall').classList.add('show');
+            } else {
+                document.getElementById('paywall').classList.remove('show');
+                document.getElementById('trial-badge').innerText = `(Día ${days+1}/7 GRATIS)`;
+            }
+        }
+
+        function checkReferral() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('ref');
+            if(ref &&!localStorage.getItem('20y_referred')) {
+                localStorage.setItem('20y_referred', ref);
+                puntos += 10;
+                referidos = parseInt(localStorage.getItem('20y_referidos') || '0') + 1;
+                localStorage.setItem('20y_referidos', referidos);
+                alert(`+10 PUNTOS 20Y. Invitado por ${ref}`);
+            }
+            referidos = parseInt(localStorage.getItem('20y_referidos') || '0');
+        }
+
+        function cargarDatos() {
+            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
+            if(user.nombre) document.getElementById('nombre').value = user.nombre;
+            if(user.tag) document.getElementById('tag').value = user.tag;
+            if(user.perfil) document.getElementById('perfil').value = user.perfil;
+            if(user.edad) document.getElementById('edad').value = user.edad;
+            if(user.ratio) document.getElementById('ratio').value = user.ratio;
+            if(user.power) document.getElementById('power').value = user.power;
+            
+            objetivos = JSON.parse(localStorage.getItem('20y_objetivos') || '[]');
+            animo = localStorage.getItem('20y_animo') || '';
+            puntos = parseInt(localStorage.getItem('20y_puntos') || '50');
+            consejos = JSON.parse(localStorage.getItem('20y_consejos') || '[]');
+            
+            if(animo) document.getElementById('animo-'+animo).classList.add('selected');
+            renderObjetivos();
+            updateCoachMsg();
+            generarSpith();
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab).classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        function guardarUsuario() {
+            const data = {
+                nombre: document.getElementById('nombre').value,
+                tag: document.getElementById('tag').value,
+                perfil: document.getElementById('perfil').value,
+                edad: document.getElementById('edad').value,
+                ratio: document.getElementById('ratio').value,
+                power: document.getElementById('power').value
+            };
+            localStorage.setItem('20y_user', JSON.stringify(data));
+            alert('PERFIL 20Y GUARDADO: ' + data.perfil);
+            generarSpith();
+        }
+
+        function setAnimo(nivel) {
+            animo = nivel;
+            localStorage.setItem('20y_animo', nivel);
+            document.querySelectorAll('.animo-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById('animo-'+nivel).classList.add('selected');
+            updateCoachMsg();
+        }
+
+        function updateCoachMsg() {
+            if(!animo) return;
+            const msgs = {
+                bajo: 'Ánimo BAJO detectado. COACH: Samuel, el dolor es temporal. Tu imperio es permanente. 1 micro-acción AHORA.',
+                medio: 'Ánimo MEDIO. COACH: Estás en neutro. Neutro es muerte lenta. Elige: BAJO o ALTO. No existe medio.',
+                alto: 'Ánimo ALTO. COACH: ÓPTIMO. Aprovecha este momentum. Hoy cazas 2 objetivos. Ejecuta.'
+            };
+            document.getElementById('coach-msg').innerHTML = msgs[animo];
+            document.getElementById('coach-msg').classList.remove('hidden');
+        }
+
+        function nuevoObjetivo() {
+            const nombre = prompt('OBJETIVO 20Y:');
+            if(!nombre) return;
+            objetivos.push({id: Date.now(), nombre, progreso: 0, completado: false});
+            localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
+            renderObjetivos();
+            actualizarStats();
+        }
+
+        function renderObjetivos() {
+            const lista = document.getElementById('lista-objetivos');
+            lista.innerHTML = objetivos.map(o => `
+                <div class="objetivo">
+                    <div class="obj-header">
+                        <strong>${o.nombre}</strong>
+                        <span>${o.progreso}%</span>
+                    </div>
+                    <div class="progress"><div class="progress-bar" style="width:${o.progreso}%"></div></div>
+                    <div class="row">
+                        <button class="secondary" onclick="updateProgreso(${o.id}, 25)">+25%</button>
+                        <button class="danger" onclick="borrarObjetivo(${o.id})">BORRAR</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateProgreso(id, delta) {
+            const obj = objetivos.find(o => o.id === id);
+            if(obj) {
+                obj.progreso = Math.min(100, obj.progreso + delta);
+                if(obj.progreso >= 100 &&!obj.completado) {
+                    obj.completado = true;
+                    puntos += 20;
+                    localStorage.setItem('20y_puntos', puntos);
+                    alert('+20 PUNTOS 20Y. OBJETIVO CAZADO.');
+                }
+                localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
+                renderObjetivos();
+                actualizarStats();
+            }
+        }
+
+        function borrarObjetivo(id) {
+            objetivos = objetivos.filter(o => o.id !== id);
+            localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
+            renderObjetivos();
+            actualizarStats();
+        }
+
+        function actualizarStats() {
+            const activos = objetivos.filter(o =>!o.completado).length;
+            const completados = objetivos.filter(o => o.completado).length;
+            document.getElementById('puntos').innerText = puntos;
+            document.getElementById('obj-activos').innerText = activos;
+            document.getElementById('obj-completados').innerText = completados;
+            document.getElementById('stability').innerText = document.getElementById('power').value;
+            document.getElementById('referidos').innerText = referidos;
+        }
+
+        function revision20Y() {
+            const completados = objetivos.filter(o => o.completado).length;
+            const total = objetivos.length;
+            const ratio = total > 0 ? Math.round((completados/total)*100) : 0;
+            alert(`REVISIÓN
