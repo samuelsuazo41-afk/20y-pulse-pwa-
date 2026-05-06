@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#00FF00">
-    <title>20Y PULSE v10.0</title>
+    <title>20Y PULSE v10.1</title>
     <link rel="manifest" href="manifest.json">
     <link id="font-link" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    <style id="dynamic-theme">
-        /* Tema se inyecta aquí por JS */
-    </style>
+    <style id="dynamic-theme"></style>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { padding: 20px; min-height: 100vh; transition: all 0.3s ease; }
@@ -39,7 +37,20 @@
         .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
         .stat-line { display: flex; justify-content: space-between; margin: 5px 0; padding: 8px 0; }
         .hr { margin: 20px 0; }
-        .paywall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .paywall { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 9999; 
+            display: none;
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px;
+            background: #000;
+        }
+        .paywall.show { display: flex; }
         .paywall-box { padding: 30px; text-align: center; max-width: 400px; border-radius: 16px; }
         .theme-card { border: 2px solid; padding: 20px; margin: 15px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }
         .theme-card:hover { transform: translateY(-4px); }
@@ -48,7 +59,7 @@
     </style>
 </head>
 <body>
-    <div id="paywall" class="paywall hidden">
+    <div id="paywall" class="paywall">
         <div class="paywall-box">
             <div style="font-size:24px;font-weight:bold;margin-bottom:20px;">⚡ TRIAL 20Y TERMINADO</div>
             <div style="margin-bottom:20px;">Tus 7 días gratis expiraron.<br><br>Desbloquea 20Y PULSE PRO:</div>
@@ -355,7 +366,7 @@
                 .consejo-item { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
                 .stat-line { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
                 .hr { border-top: 1px solid ${t.border}; }
-                .paywall { background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px); }
+                .paywall { background: #000; }
                 .paywall-box { border: 2px solid ${t.accent}; background: rgba(26, 26, 26, 0.9); box-shadow: 0 0 60px ${t.accent}4D; }
                 .theme-card { border-color: ${t.border}; background: ${t.card}; }
                 .theme-card.active { border-color: ${t.accent}; box-shadow: ${t.shadow}; }
@@ -416,8 +427,9 @@
             }
             const days = Math.floor((Date.now() - parseInt(firstUse)) / 86400000);
             if(days >= 7 &&!localStorage.getItem('20y_pro')) {
-                document.getElementById('paywall').classList.remove('hidden');
+                document.getElementById('paywall').classList.add('show');
             } else {
+                document.getElementById('paywall').classList.remove('show');
                 document.getElementById('trial-badge').innerText = `(Día ${days+1}/7 GRATIS)`;
             }
         }
@@ -437,53 +449,4 @@
 
         function cargarDatos() {
             const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
-            if(user.nombre) document.getElementById('nombre').value = user.nombre;
-            if(user.tag) document.getElementById('tag').value = user.tag;
-            if(user.perfil) document.getElementById('perfil').value = user.perfil;
-            if(user.edad) document.getElementById('edad').value = user.edad;
-            if(user.ratio) document.getElementById('ratio').value = user.ratio;
-            if(user.power) document.getElementById('power').value = user.power;
-            
-            objetivos = JSON.parse(localStorage.getItem('20y_objetivos') || '[]');
-            animo = localStorage.getItem('20y_animo') || '';
-            puntos = parseInt(localStorage.getItem('20y_puntos') || '50');
-            consejos = JSON.parse(localStorage.getItem('20y_consejos') || '[]');
-            
-            if(animo) document.getElementById('animo-'+animo).classList.add('selected');
-            renderObjetivos();
-            updateCoachMsg();
-            generarSpith();
-        }
-
-        function showTab(tab) {
-            document.querySelectorAll('.content').forEach(c => c.classList.add('hidden'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tab).classList.remove('hidden');
-            event.target.classList.add('active');
-        }
-
-        function guardarUsuario() {
-            const data = {
-                nombre: document.getElementById('nombre').value,
-                tag: document.getElementById('tag').value,
-                perfil: document.getElementById('perfil').value,
-                edad: document.getElementById('edad').value,
-                ratio: document.getElementById('ratio').value,
-                power: document.getElementById('power').value
-            };
-            localStorage.setItem('20y_user', JSON.stringify(data));
-            alert('PERFIL 20Y GUARDADO: ' + data.perfil);
-            generarSpith();
-        }
-
-        function setAnimo(nivel) {
-            animo = nivel;
-            localStorage.setItem('20y_animo', nivel);
-            document.querySelectorAll('.animo-btn').forEach(b => b.classList.remove('selected'));
-            document.getElementById('animo-'+nivel).classList.add('selected');
-            updateCoachMsg();
-        }
-
-        function updateCoachMsg() {
-            const msg = document.getElementById('coach-msg');
-            if(!animo)
+            if(user.nombre) document.get
