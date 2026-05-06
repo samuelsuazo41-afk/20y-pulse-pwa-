@@ -7,6 +7,7 @@
     <title>20Y PULSE v10.1</title>
     <link rel="manifest" href="manifest.json">
     <link id="font-link" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style id="dynamic-theme"></style>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,19 +38,7 @@
         .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
         .stat-line { display: flex; justify-content: space-between; margin: 5px 0; padding: 8px 0; }
         .hr { margin: 20px 0; }
-        .paywall { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: 9999; 
-            display: none;
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px;
-            background: #000;
-        }
+        .paywall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; background: #000; }
         .paywall.show { display: flex; }
         .paywall-box { padding: 30px; text-align: center; max-width: 400px; border-radius: 16px; }
         .theme-card { border: 2px solid; padding: 20px; margin: 15px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }
@@ -280,21 +269,8 @@
             document.getElementById('font-link').href = `https://fonts.googleapis.com/css2?family=${fontUrl}:wght@400;700&display=swap`;
             
             let css = `
-                body { 
-                    background: ${t.bg}; 
-                    color: ${t.color}; 
-                    font-family: '${fontActual}', monospace;
-                }
-                body::before {
-                    content: '';
-                    position: fixed;
-                    top: 0; left: 0; width: 100%; height: 100%;
-                    background-image: 
-                        radial-gradient(circle at 20% 50%, ${t.accent}08 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, ${t.accent2}05 0%, transparent 50%);
-                    pointer-events: none;
-                    z-index: -1;
-                }
+                body { background: ${t.bg}; color: ${t.color}; font-family: '${fontActual}', monospace; }
+                body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 50%, ${t.accent}08 0%, transparent 50%), radial-gradient(circle at 80% 80%, ${t.accent2}05 0%, transparent 50%); pointer-events: none; z-index: -1; }
                 .header { color: ${t.accent}; text-shadow: 0 0 20px ${t.accent}4D; }
                 .tab { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(10px); }
                 .tab:hover { border-color: ${t.accent}; background: ${t.accent}1A; }
@@ -337,24 +313,9 @@
             document.getElementById('dynamic-theme').innerHTML = css;
         }
 
-        function cambiarTema(nuevo) {
-            temaActual = nuevo;
-            localStorage.setItem('20y_tema', nuevo);
-            aplicarTema();
-            renderTemas();
-        }
-
-        function cambiarFont(nueva) {
-            fontActual = nueva;
-            localStorage.setItem('20y_font', nueva);
-            aplicarTema();
-        }
-
-        function cambiarHover(nuevo) {
-            hoverActual = nuevo;
-            localStorage.setItem('20y_hover', nuevo);
-            aplicarTema();
-        }
+        function cambiarTema(nuevo) { temaActual = nuevo; localStorage.setItem('20y_tema', nuevo); aplicarTema(); renderTemas(); }
+        function cambiarFont(nueva) { fontActual = nueva; localStorage.setItem('20y_font', nueva); aplicarTema(); }
+        function cambiarHover(nuevo) { hoverActual = nuevo; localStorage.setItem('20y_hover', nuevo); aplicarTema(); }
 
         function renderTemas() {
             const lista = document.getElementById('lista-temas');
@@ -362,13 +323,7 @@
             Object.keys(TEMAS).forEach(key => {
                 const t = TEMAS[key];
                 const active = key === temaActual ? 'active' : '';
-                lista.innerHTML += `
-                    <div class="theme-card ${active}" onclick="cambiarTema('${key}')">
-                        <div style="font-weight:bold;font-size:18px;">${t.nombre}</div>
-                        <div style="font-size:14px;opacity:0.7;margin:8px 0;">${t.desc}</div>
-                        <div class="theme-preview" style="background:${t.bg};border:1px solid ${t.border};"></div>
-                    </div>
-                `;
+                lista.innerHTML += `<div class="theme-card ${active}" onclick="cambiarTema('${key}')"><div style="font-weight:bold;font-size:18px;">${t.nombre}</div><div style="font-size:14px;opacity:0.7;margin:8px 0;">${t.desc}</div><div class="theme-preview" style="background:${t.bg};border:1px solid ${t.border};"></div></div>`;
             });
             document.getElementById('select-font').value = fontActual;
             document.getElementById('select-hover').value = hoverActual;
@@ -431,14 +386,7 @@
         }
 
         function guardarUsuario() {
-            const data = {
-                nombre: document.getElementById('nombre').value,
-                tag: document.getElementById('tag').value,
-                perfil: document.getElementById('perfil').value,
-                edad: document.getElementById('edad').value,
-                ratio: document.getElementById('ratio').value,
-                power: document.getElementById('power').value
-            };
+            const data = { nombre: document.getElementById('nombre').value, tag: document.getElementById('tag').value, perfil: document.getElementById('perfil').value, edad: document.getElementById('edad').value, ratio: document.getElementById('ratio').value, power: document.getElementById('power').value };
             localStorage.setItem('20y_user', JSON.stringify(data));
             alert('PERFIL 20Y GUARDADO: ' + data.perfil);
             generarSpith();
@@ -454,11 +402,7 @@
 
         function updateCoachMsg() {
             if(!animo) return;
-            const msgs = {
-                bajo: 'Ánimo BAJO detectado. COACH: Samuel, el dolor es temporal. Tu imperio es permanente. 1 micro-acción AHORA.',
-                medio: 'Ánimo MEDIO. COACH: Estás en neutro. Neutro es muerte lenta. Elige: BAJO o ALTO. No existe medio.',
-                alto: 'Ánimo ALTO. COACH: ÓPTIMO. Aprovecha este momentum. Hoy cazas 2 objetivos. Ejecuta.'
-            };
+            const msgs = { bajo: 'Ánimo BAJO detectado. COACH: Samuel, el dolor es temporal. Tu imperio es permanente. 1 micro-acción AHORA.', medio: 'Ánimo MEDIO. COACH: Estás en neutro. Neutro es muerte lenta. Elige: BAJO o ALTO. No existe medio.', alto: 'Ánimo ALTO. COACH: ÓPTIMO. Aprovecha este momentum. Hoy cazas 2 objetivos. Ejecuta.' };
             document.getElementById('coach-msg').innerHTML = msgs[animo];
             document.getElementById('coach-msg').classList.remove('hidden');
         }
@@ -474,19 +418,7 @@
 
         function renderObjetivos() {
             const lista = document.getElementById('lista-objetivos');
-            lista.innerHTML = objetivos.map(o => `
-                <div class="objetivo">
-                    <div class="obj-header">
-                        <strong>${o.nombre}</strong>
-                        <span>${o.progreso}%</span>
-                    </div>
-                    <div class="progress"><div class="progress-bar" style="width:${o.progreso}%"></div></div>
-                    <div class="row">
-                        <button class="secondary" onclick="updateProgreso(${o.id}, 25)">+25%</button>
-                        <button class="danger" onclick="borrarObjetivo(${o.id})">BORRAR</button>
-                    </div>
-                </div>
-            `).join('');
+            lista.innerHTML = objetivos.map(o => `<div class="objetivo"><div class="obj-header"><strong>${o.nombre}</strong><span>${o.progreso}%</span></div><div class="progress"><div class="progress-bar" style="width:${o.progreso}%"></div></div><div class="row"><button class="secondary" onclick="updateProgreso(${o.id}, 25)">+25%</button><button class="danger" onclick="borrarObjetivo(${o.id})">BORRAR</button></div></div>`).join('');
         }
 
         function updateProgreso(id, delta) {
@@ -505,25 +437,8 @@
             }
         }
 
-        function borrarObjetivo(id) {
-            objetivos = objetivos.filter(o => o.id !== id);
-            localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
-            renderObjetivos();
-            actualizarStats();
-        }
-
-        function actualizarStats() {
-            const activos = objetivos.filter(o =>!o.completado).length;
-            const completados = objetivos.filter(o => o.completado).length;
-            document.getElementById('puntos').innerText = puntos;
-            document.getElementById('obj-activos').innerText = activos;
-            document.getElementById('obj-completados').innerText = completados;
-            document.getElementById('stability').innerText = document.getElementById('power').value;
-            document.getElementById('referidos').innerText = referidos;
-        }
-
-        function revision20Y() {
-            const completados = objetivos.filter(o => o.completado).length;
-            const total = objetivos.length;
-            const ratio = total > 0 ? Math.round((completados/total)*100) : 0;
-            alert(`REVISIÓN
+        function borrarObjetivo(id) { objetivos = objetivos.filter(o => o.id !== id); localStorage.setItem('20y_objetivos', JSON.stringify(objetivos)); renderObjetivos(); actualizarStats(); }
+        function actualizarStats() { const activos = objetivos.filter(o =>!o.completado).length; const completados = objetivos.filter(o => o.completado).length; document.getElementById('puntos').innerText = puntos; document.getElementById('obj-activos').innerText = activos; document.getElementById('obj-completados').innerText = completados; document.getElementById('stability').innerText = document.getElementById('power').value; document.getElementById('referidos').innerText = referidos; }
+        function revision20Y() { const completados = objetivos.filter(o => o.completado).length; const total = objetivos.length; const ratio = total > 0 ? Math.round((completados/total)*100) : 0; alert(`REVISIÓN 20Y\nCompletados: ${completados}/${total}\nRatio: ${ratio}%\nPuntos: ${puntos}\n\n${ratio >= 80 ? 'LEYENDA' : ratio >= 50 ? 'OPERATOR' : 'SIGUE CAZANDO'}`); }
+        function generarSpith() { document.getElementById('spith-texto').innerText = 'Samuel Suazo, 2/3 cazados. 50 20Y. No pares ahora.'; }
+        function activarNotificaciones() { if('Notification' in window) { Notification.requestPermission().then(p => { if(p === 'granted') { alert('NOTIFICACIONES ACTIVADAS'); new Notification('20Y PULSE', {body: 'Sistema activo', icon
