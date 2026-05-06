@@ -1,11 +1,11 @@
 {
-  "name": "20Y PULSE v9.0 LEYENDA",
+  "name": "20Y PULSE v9.6 - Samuel Suazo",
   "short_name": "20Y PULSE",
-  "description": "Sistema de ejecución Misión y Racha",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#00FF00",
+  "description": "20Y Core Systems - Ejecución sobre excusas. Coach 20Y + SPITH + Plan Estratégico.",
   "icons": [
     {
       "src": "icon-192.png",
