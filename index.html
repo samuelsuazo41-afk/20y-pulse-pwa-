@@ -1,23 +1,501 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00FF00">
-<title>20Y PULSE v9.0 LEYENDA</title>
-<style>
-body{background:#000;color:#0f0;font-family:monospace;text-align:center;padding:50px}
-h1{font-size:2rem}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00FF00">
+    <title>20Y PULSE v9.6</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', monospace; }
+        body { background: #000; color: #00FF00; padding: 20px; }
+       .header { text-align: center; font-size: 28px; margin: 20px 0; font-weight: bold; }
+       .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+       .tabs-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+       .tab { border: 2px solid #00FF00; padding: 12px; text-align: center; cursor: pointer; background: #000; }
+       .tab.active { background: #00FF00; color: #000; font-weight: bold; }
+       .content { border: 2px solid #00FF00; padding: 20px; border-radius: 8px; }
+       .title { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
+        input, select, button, textarea { width: 100%; background: #000; border: 2px solid #00FF00; color: #00FF00; padding: 12px; margin: 8px 0; font-size: 16px; }
+        button { cursor: pointer; font-weight: bold; }
+        button.primary { background: #00FF00; color: #000; }
+        button.secondary { background: #333; border-color: #333; }
+        button.danger { background: #330000; border-color: #FF0000; color: #FF0000; }
+        button.like { background: #001100; border-color: #FF00FF; color: #FF00FF; font-size: 14px; padding: 8px; width: auto; }
+        button.like.active { background: #FF00FF; color: #000; }
+       .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+       .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+       .footer { text-align: center; margin-top: 30px; font-size: 14px; opacity: 0.8; }
+       .hidden { display: none; }
+       .objetivo { border: 2px solid #00FF00; padding: 15px; margin: 15px 0; border-radius: 8px; }
+       .obj-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+       .progress { width: 100%; height: 8px; background: #333; margin: 10px 0; }
+       .progress-bar { height: 100%; background: #00FF00; }
+       .animo-btn { font-size: 30px; padding: 8px; border: 2px solid #00FF00; background: #000; }
+       .animo-btn.selected { background: #00FF00; color: #000; }
+       .coach-msg { border-left: 4px solid #00FF00; padding: 15px; margin: 15px 0; background: #001100; }
+       .spith-box { border-left: 4px solid #00FF00; padding: 15px; margin: 15px 0; background: #001100; font-style: italic; font-size: 18px; line-height: 1.5; }
+       .plan-box { border: 2px solid #00FF00; padding: 15px; margin: 15px 0; }
+       .orden-box { border: 2px solid #FF0000; padding: 15px; margin: 15px 0; background: #110000; }
+       .consejo-item { border: 2px solid #00FF00; padding: 15px; margin: 15px 0; }
+       .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
+       .stat-line { display: flex; justify-content: space-between; margin: 5px 0; }
+       .hr { border-top: 1px solid #00FF00; margin: 20px 0; }
+    </style>
 </head>
 <body>
-<h1>20Y PULSE v9.0 LEYENDA</h1>
-<p>Sistema de ejecución activo</p>
-<script>
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/service-worker.js');
-}
-</script>
+    <div class="header">20Y PULSE</div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('usuario')">USUARIO</div>
+        <div class="tab" onclick="showTab('objetivos')">OBJETIVOS</div>
+        <div class="tab" onclick="showTab('spith')">SPITH</div>
+    </div>
+    <div class="tabs-2">
+        <div class="tab" onclick="showTab('ejecucion')">EJECUCIÓN</div>
+        <div class="tab" onclick="showTab('coach')">COACH</div>
+    </div>
+
+    <div id="usuario" class="content">
+        <div class="title">EDITAR USUARIO</div>
+        <input type="text" id="nombre" placeholder="Nombre" value="Samuel Suazo">
+        <input type="text" id="tag" placeholder="Tag" value="FundadorActivo titan 8v.5live">
+        <select id="perfil">
+            <option value="">-- ELIGE TU PERFIL 20Y --</option>
+            <option value="CEO">CEO - Ejecutor Máximo</option>
+            <option value="Financista">Financista - Capital Killer</option>
+            <option value="Broker">Broker - Deal Maker</option>
+            <option value="Trader">Trader - Pulse Sniper</option>
+            <option value="Builder">Builder - Arquitecto 20Y</option>
+            <option value="Operator">Operator - Máquina de Ejecución</option>
+            <option value="Investor">Investor - Cazador de Alpha</option>
+            <option value="Leyenda">Leyenda - Modo Dios</option>
+        </select>
+        <div class="row">
+            <input type="number" id="edad" placeholder="Edad" value="50">
+            <input type="text" id="ratio" placeholder="Ratio" value="4/4">
+        </div>
+        <input type="text" id="power" placeholder="Power %" value="98%">
+        <button class="primary" onclick="guardarUsuario()">GUARDAR</button>
+    </div>
+
+    <div id="objetivos" class="content hidden">
+        <div class="title">OBJETIVOS Y METAS 20Y</div>
+        <div class="title" style="font-size:16px;">ESTADO DE ÁNIMO HOY:</div>
+        <div class="row-3" style="margin-bottom:15px;">
+            <button class="animo-btn" id="animo-bajo" onclick="setAnimo('bajo')">😢<br>BAJO</button>
+            <button class="animo-btn" id="animo-medio" onclick="setAnimo('medio')">😐<br>MEDIO</button>
+            <button class="animo-btn" id="animo-alto" onclick="setAnimo('alto')">🚀<br>ALTO</button>
+        </div>
+        <div id="coach-msg" class="coach-msg hidden"></div>
+        <div id="lista-objetivos"></div>
+        <button class="primary" onclick="nuevoObjetivo()">+ NUEVO OBJETIVO</button>
+        <div class="hr"></div>
+        <div class="title">TEST DE REVISIÓN</div>
+        <button class="primary" onclick="revision20Y()">EJECUTAR REVISIÓN 20Y</button>
+    </div>
+
+    <div id="spith" class="content hidden">
+        <div class="title">20Y SPITH</div>
+        <div class="spith-box" id="spith-texto">Samuel Suazo, 2/3 cazados. 50 20Y. No pares ahora.</div>
+        <select id="spith-hora">
+            <option value="09:00">Diario 09:00h</option>
+            <option value="12:00">Diario 12:00h</option>
+            <option value="18:00">Diario 18:00h</option>
+            <option value="21:00">Diario 21:00h</option>
+        </select>
+        <button class="primary" id="btn-notif" onclick="activarNotificaciones()">ACTIVAR NOTIFICACIONES</button>
+        <button class="secondary" onclick="generarSpith()">GENERAR SPITH AHORA</button>
+    </div>
+
+    <div id="ejecucion" class="content hidden">
+        <div class="title">ORDEN DE EJECUCIÓN 20Y</div>
+        <div class="stat-line"><span>Puntos 20Y:</span><span id="puntos">50</span></div>
+        <div class="stat-line"><span>Objetivos activos:</span><span id="obj-activos">3</span></div>
+        <div class="stat-line"><span>Completados:</span><span id="obj-completados">2</span></div>
+        <div class="stat-line"><span>Stability:</span><span id="stability">98%</span></div>
+        
+        <div class="plan-box hidden" id="plan-estrategico">
+            <div style="font-weight:bold;margin-bottom:10px;">📋 PLAN ESTRATÉGICO 20Y</div>
+            <div id="plan-contenido"></div>
+        </div>
+
+        <div class="orden-box hidden" id="orden-dia">
+            <div style="font-weight:bold;margin-bottom:10px;color:#FF0000;">⚡ ORDEN DEL DÍA</div>
+            <div id="orden-contenido"></div>
+        </div>
+
+        <button class="primary" onclick="generarOrden()">GENERAR ORDEN DE EJECUCIÓN</button>
+        <button class="primary" onclick="generarPlan()">GENERAR PLAN ESTRATÉGICO</button>
+        <button class="secondary" onclick="marcarCumplida()">MARCAR ORDEN CUMPLIDA +10 PUNTOS</button>
+    </div>
+
+    <div id="coach" class="content hidden">
+        <div class="title">COACH 20Y PULSE</div>
+        <div class="coach-msg" id="consejo-actual">
+            <div style="font-weight:bold;margin-bottom:10px;">🧠 CONSEJO TÁCTICO</div>
+            <div id="consejo-texto">Toca GENERAR CONSEJO para que el Cerebro 20Y analice tu estado.</div>
+            <button class="like hidden" id="btn-like" onclick="darLike()">❤️ ME GUSTA</button>
+        </div>
+        <button class="primary" onclick="generarConsejo()">GENERAR CONSEJO 20Y + NOTIFICAR</button>
+        <button class="secondary" onclick="borrarHistorial()">BORRAR HISTORIAL</button>
+        
+        <div class="title" style="margin-top:20px;">HISTORIAL COACH</div>
+        <div id="historial-coach"></div>
+    </div>
+
+    <div class="footer">
+        20Y CORE SYSTEMS<br>
+        SALT, GIRONA, SPAIN
+    </div>
+
+    <script>
+        let objetivos = [];
+        let animo = '';
+        let puntos = 50;
+        let consejos = [];
+        let consejoActualId = null;
+        
+        const LEMAS_SPITH = [
+            "Yo soy {nombre}. Mi código es ejecución sobre excusas. Cada día cazo mi presa. No pido permiso. No espero validación. Yo creo mi imperio. 20Y.",
+            "Mírate al espejo {nombre}. Ese es tu único competidor. Hoy le ganas. Power {power}. Ratio {ratio}. Leyenda activada.",
+            "Soy {perfil} 20Y. Mi estado no depende del mercado. Yo soy el mercado. Respiro. Ejecuto. Domino. Siguiente.",
+            "El miedo es para los que piden. Yo tomo. {nombre}, {edad} años de fuego. 2/3 cazados no es suficiente. Hoy voy por el 3/3.",
+            "No soy producto de las circunstancias. Soy causa. Soy {nombre}. Mi palabra es contrato. Mi ejecución es religión. 20Y CORE."
+        ];
+
+        const CONSEJOS_20Y = [
+            "{puntos} 20Y. Ya probaste que funcionas. Próximo nivel: convierte 20Y PULSE en activo vendible. 72h.",
+            "Stability {stability}. {completados} objetivos cazados. Tu debilidad: {perfil} sin sistema. Solución: 1 proceso diario blindado.",
+            "Ánimo {animo}. La emoción es data, no orden. Ejecuta la orden del día aunque no tengas ganas. Disciplina > Motivación.",
+            "Ratio {ratio}. Power {power}. Estás en top 1%. Ahora el juego es mental: elimina 3 distracciones hoy. Enfoque láser.",
+            "Cerebro 20Y detecta: {activos} objetivos activos = dispersión. Elige 1. Mátalo. Luego el siguiente. Foco mata ruido.",
+            "Samuel, {edad} años no es excusa. Es ventaja. Experiencia + Ejecución = Imparable. Hoy: 1 acción que tu yo de 20 no haría."
+        ];
+
+        window.onload = () => {
+            cargarDatos();
+            checkNotificaciones();
+            actualizarStats();
+            renderHistorialCoach();
+        };
+
+        function cargarDatos() {
+            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
+            if(user.nombre) document.getElementById('nombre').value = user.nombre;
+            if(user.tag) document.getElementById('tag').value = user.tag;
+            if(user.perfil) document.getElementById('perfil').value = user.perfil;
+            if(user.edad) document.getElementById('edad').value = user.edad;
+            if(user.ratio) document.getElementById('ratio').value = user.ratio;
+            if(user.power) document.getElementById('power').value = user.power;
+            
+            objetivos = JSON.parse(localStorage.getItem('20y_objetivos') || '[]');
+            animo = localStorage.getItem('20y_animo') || '';
+            puntos = parseInt(localStorage.getItem('20y_puntos') || '50');
+            consejos = JSON.parse(localStorage.getItem('20y_consejos') || '[]');
+            
+            if(animo) document.getElementById('animo-'+animo).classList.add('selected');
+            renderObjetivos();
+            updateCoachMsg();
+            generarSpith();
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab).classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        function guardarUsuario() {
+            const data = {
+                nombre: document.getElementById('nombre').value,
+                tag: document.getElementById('tag').value,
+                perfil: document.getElementById('perfil').value,
+                edad: document.getElementById('edad').value,
+                ratio: document.getElementById('ratio').value,
+                power: document.getElementById('power').value
+            };
+            localStorage.setItem('20y_user', JSON.stringify(data));
+            alert('PERFIL 20Y GUARDADO: ' + data.perfil);
+            generarSpith();
+        }
+
+        function setAnimo(nivel) {
+            animo = nivel;
+            localStorage.setItem('20y_animo', nivel);
+            document.querySelectorAll('.animo-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById('animo-'+nivel).classList.add('selected');
+            updateCoachMsg();
+        }
+
+        function updateCoachMsg() {
+            const msg = document.getElementById('coach-msg');
+            if(!animo) { msg.classList.add('hidden'); return; }
+            msg.classList.remove('hidden');
+            const frases = {
+                bajo: '😢 ÁNIMO BAJO DETECTADO. PROTOCOLO 20Y: 1. Respira 3 veces. 2. Haz 1 micro-ejecución AHORA. 3. Sube a ÓPTIMO. NO HAY EXCUSAS.',
+                medio: '😐 ÁNIMO MEDIO. ESTÁS A 1 DECISIÓN DE ÓPTIMO. Elige 1 objetivo y márcalo +1. EJECUCIÓN > EMOCIÓN.',
+                alto: '🚀 ÁNIMO ALTO = MODO LEYENDA ACTIVO. Aprovecha el pulse. Doble ejecución hoy. DOMINA.'
+            };
+            msg.innerHTML = '<b>COACH 20Y:</b><br>' + frases[animo];
+        }
+
+        function nuevoObjetivo() {
+            const nombre = prompt('Nombre del objetivo:');
+            if(!nombre) return;
+            const cat = prompt('Categoría: Finanzas, Personal, Salud, etc:');
+            const porque = prompt('¿Por qué es importante para ti?:');
+            objetivos.push({id:Date.now(), nombre, cat, porque, actual:0, meta:1});
+            saveObjetivos();
+        }
+
+        function renderObjetivos() {
+            const lista = document.getElementById('lista-objetivos');
+            lista.innerHTML = '';
+            objetivos.forEach((obj, i) => {
+                const pct = Math.min(100, (obj.actual/obj.meta)*100);
+                lista.innerHTML += `
+                <div class="objetivo">
+                    <div class="obj-header"><b>${obj.nombre}</b><span>${obj.cat}</span></div>
+                    <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
+                    <div class="row-3">
+                        <button class="secondary" onclick="sumarObj(${i})">+1</button>
+                        <button class="secondary" onclick="editarObj(${i})">EDITAR</button>
+                        <button class="danger" onclick="borrarObj(${i})">X</button>
+                    </div>
+                    <div style="margin-top:10px;font-size:14px;">${obj.actual}/${obj.meta} - ${obj.porque}</div>
+                </div>`;
+            });
+            actualizarStats();
+        }
+
+        function sumarObj(i) {
+            objetivos[i].actual++;
+            saveObjetivos();
+            if(objetivos[i].actual >= objetivos[i].meta) alert('🎯 OBJETIVO COMPLETADO: ' + objetivos[i].nombre);
+        }
+        function editarObj(i) {
+            const meta = prompt('Nueva meta:', objetivos[i].meta);
+            if(meta) objetivos[i].meta = parseInt(meta);
+            saveObjetivos();
+        }
+        function borrarObj(i) {
+            if(confirm('¿Borrar objetivo?')) {
+                objetivos.splice(i,1);
+                saveObjetivos();
+            }
+        }
+        function saveObjetivos() {
+            localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
+            renderObjetivos();
+        }
+        function revision20Y() {
+            const completados = objetivos.filter(o => o.actual >= o.meta).length;
+            alert(`REVISIÓN 20Y:\n${completados}/${objetivos.length} objetivos completados\nÁnimo actual: ${animo.toUpperCase()}\n\nSIGUIENTE ACCIÓN: ${animo=='bajo'? 'Sube tu ánimo YA' : 'Ejecuta el siguiente objetivo'}`);
+        }
+
+        function generarSpith() {
+            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
+            const cazados = objetivos.filter(o => o.actual >= o.meta).length;
+            const total = objetivos.length || 1;
+            let lema = LEMAS_SPITH[Math.floor(Math.random() * LEMAS_SPITH.length)];
+            lema = lema.replace('{nombre}', user.nombre || 'Leyenda')
+                    .replace('{perfil}', user.perfil || 'CEO')
+                    .replace('{edad}', user.edad || '50')
+                    .replace('{power}', user.power || '98%')
+                    .replace('{ratio}', user.ratio || '4/4');
+            const spithCompleto = `${lema}\n\n${cazados}/${total} objetivos cazados hoy. No pares ahora.`;
+            document.getElementById('spith-texto').innerText = spithCompleto;
+            localStorage.setItem('20y_spith_actual', spithCompleto);
+        }
+
+        function activarNotificaciones() {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    checkNotificaciones();
+                    navigator.serviceWorker.ready.then(reg => {
+                        reg.showNotification('20Y SPITH ACTIVADO', {
+                            body: 'Recibirás tu lema 20Y diario a las ' + document.getElementById('spith-hora').value,
+                            icon: 'icon-192.png',
+                            badge: 'icon-192.png'
+                        });
+                    });
+                    localStorage.setItem('20y_notif_hora', document.getElementById('spith-hora').value);
+                    alert('NOTIFICACIÓN PROGRAMADA A LAS ' + document.getElementById('spith-hora').value);
+                } else {
+                    alert('Permiso denegado. Actívalo en Ajustes > Notificaciones');
+                }
+            });
+        }
+
+        function checkNotificaciones() {
+            if(Notification.permission === 'granted') {
+                document.getElementById('btn-notif').innerText = 'NOTIFICACIONES ACTIVAS';
+            }
+        }
+
+        function actualizarStats() {
+            const activos = objetivos.filter(o => o.actual < o.meta).length;
+            const completados = objetivos.filter(o => o.actual >= o.meta).length;
+            const stability = Math.min(100, 50 + (completados * 10) - (activos * 5));
+            document.getElementById('puntos').innerText = puntos;
+            document.getElementById('obj-activos').innerText = activos;
+            document.getElementById('obj-completados').innerText = completados;
+            document.getElementById('stability').innerText = stability + '%';
+        }
+
+        function generarPlan() {
+            const activos = objetivos.filter(o => o.actual < o.meta);
+            if(activos.length === 0) {
+                alert('NO HAY OBJETIVOS ACTIVOS. Crea uno en la pestaña OBJETIVOS.');
+                return;
+            }
+            const obj = activos[0];
+            const plan = `
+                <div><b>Enfoque 72h para subir Stability Score:</b></div>
+                <div style="margin:10px 0;"><b>1. Paso 1 - CLARIDAD:</b> Define exactamente qué significa "${obj.nombre}". Métrica: de ${obj.actual} a ${obj.actual + 1}. Razón: ${obj.porque}</div>
+                <div style="margin:10px 0;"><b>2. Paso 2 - ACCIÓN MÍNIMA:</b> Ejecuta 1 unidad HOY. Sin perfección. Solo movimiento. Categoría: ${obj.cat}</div>
+                <div style="margin:10px 0;"><b>3. Paso 3 - REVISIÓN 24H:</b> Mañana marca +1 si ejecutaste. Ajusta meta si hace falta. Sin culpa, solo data.</div>
+                <div style="margin-top:15px;"><b>Ejecuta Paso 1 hoy. Sin distracciones.</b></div>
+            `;
+            document.getElementById('plan-contenido').innerHTML = plan;
+            document.getElementById('plan-estrategico').classList.remove('hidden');
+            localStorage.setItem('20y_plan', plan);
+        }
+
+        function generarOrden() {
+            const activos = objetivos.filter(o => o.actual < o.meta);
+            if(activos.length === 0) {
+                alert('NO HAY OBJETIVOS ACTIVOS. Crea uno en la pestaña OBJETIVOS.');
+                return;
+            }
+            const obj = activos[0];
+            const orden = `HOY: Avanza 1 unidad en "${obj.nombre}". Actual: ${obj.actual}/${obj.meta}. Categoría: ${obj.cat}. No hay excusas.`;
+            document.getElementById('orden-contenido').innerHTML = orden;
+            document.getElementById('orden-dia').classList.remove('hidden');
+            localStorage.setItem('20y_orden', orden);
+            
+            if(Notification.permission === 'granted') {
+                navigator.serviceWorker.ready.then(reg => {
+                    reg.showNotification('⚡ ORDEN DEL DÍA 20Y', {
+                        body: orden,
+                        icon: 'icon-192.png',
+                        badge: 'icon-192.png',
+                        tag: 'orden-20y',
+                        requireInteraction: true
+                    });
+                });
+            }
+        }
+
+        function marcarCumplida() {
+            puntos += 10;
+            localStorage.setItem('20y_puntos', puntos);
+            actualizarStats();
+            const activos = objetivos.filter(o => o.actual < o.meta);
+            if(activos.length > 0) {
+                activos[0].actual++;
+                saveObjetivos();
+            }
+            alert('+10 PUNTOS 20Y. EJECUCIÓN COMPLETADA.');
+            if(Notification.permission === 'granted') {
+                navigator.serviceWorker.ready.then(reg => {
+                    reg.showNotification('✅ ORDEN CUMPLIDA', {
+                        body: `+10 Puntos 20Y. Total: ${puntos}. Siguiente orden lista.`,
+                        icon: 'icon-192.png'
+                    });
+                });
+            }
+        }
+
+        function generarConsejo() {
+            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
+            const activos = objetivos.filter(o => o.actual < o.meta).length;
+            const completados = objetivos.filter(o => o.actual >= o.meta).length;
+            const stability = Math.min(100, 50 + (completados * 10) - (activos * 5));
+            
+            let consejo = CONSEJOS_20Y[Math.floor(Math.random() * CONSEJOS_20Y.length)];
+            consejo = consejo.replace('{puntos}', puntos)
+                         .replace('{stability}', stability + '%')
+                         .replace('{completados}', completados)
+                         .replace('{activos}', activos)
+                         .replace('{animo}', animo || 'neutro')
+                         .replace('{perfil}', user.perfil || 'CEO')
+                         .replace('{ratio}', user.ratio || '4/4')
+                         .replace('{power}', user.power || '98%')
+                         .replace('{edad}', user.edad || '50');
+            
+            const id = Date.now();
+            consejoActualId = id;
+            document.getElementById('consejo-texto').innerText = consejo;
+            document.getElementById('btn-like').classList.remove('hidden');
+            document.getElementById('btn-like').classList.remove('active');
+            
+            consejos.unshift({id, fecha: new Date().toLocaleString('es-ES'), texto: consejo, like: false});
+            if(consejos.length > 10) consejos.pop();
+            localStorage.setItem('20y_consejos', JSON.stringify(consejos));
+            renderHistorialCoach();
+            
+            if(Notification.permission === 'granted') {
+                navigator.serviceWorker.ready.then(reg => {
+                    reg.showNotification('🧠 CONSEJO TÁCTICO 20Y', {
+                        body: consejo.substring(0, 100) + '...',
+                        icon: 'icon-192.png',
+                        badge: 'icon-192.png',
+                        tag: 'consejo-20y'
+                    });
+                });
+            }
+        }
+
+        function darLike() {
+            const btn = document.getElementById('btn-like');
+            const consejo = consejos.find(c => c.id === consejoActualId);
+            if(consejo) {
+                consejo.like =!consejo.like;
+                btn.classList.toggle('active');
+                btn.innerText = consejo.like? '❤️ TE GUSTA' : '❤️ ME GUSTA';
+                localStorage.setItem('20y_consejos', JSON.stringify(consejos));
+                renderHistorialCoach();
+            }
+        }
+
+        function renderHistorialCoach() {
+            const historial = document.getElementById('historial-coach');
+            historial.innerHTML = '';
+            consejos.forEach(c => {
+                historial.innerHTML += `
+                <div class="consejo-item">
+                    <div class="consejo-header">
+                        <span>${c.fecha}</span>
+                        <button class="like ${c.like? 'active' : ''}" onclick="toggleLike(${c.id})">${c.like? '❤️' : '🤍'}</button>
+                    </div>
+                    <div>${c.texto}</div>
+                </div>`;
+            });
+        }
+
+        function toggleLike(id) {
+            const consejo = consejos.find(c => c.id === id);
+            if(consejo) {
+                consejo.like =!consejo.like;
+                localStorage.setItem('20y_consejos', JSON.stringify(consejos));
+                renderHistorialCoach();
+            }
+        }
+
+        function borrarHistorial() {
+            if(confirm('¿Borrar todo el historial de consejos?')) {
+                consejos = [];
+                localStorage.setItem('20y_consejos', JSON.stringify(consejos));
+                renderHistorialCoach();
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
 </body>
 </html>
