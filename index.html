@@ -3,69 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#FFD700">
-    <title>20Y PULSE v10.1</title>
+    <meta name="theme-color" content="#00FF00">
+    <title>20Y PULSE v9.6</title>
     <link rel="manifest" href="manifest.json">
-    <link id="font-link" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <style id="dynamic-theme"></style>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { padding: 20px; min-height: 100vh; transition: all 0.3s ease; }
-        .header { text-align: center; font-size: 28px; margin: 20px 0; font-weight: bold; transition: all 0.3s ease; }
-        .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-        .tabs-2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-        .tab { padding: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; }
-        .tab.active { font-weight: bold; }
-        .content { padding: 20px; border-radius: 8px; transition: all 0.3s ease; }
-        .title { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
-        input, select, button, textarea { width: 100%; padding: 12px; margin: 8px 0; font-size: 16px; border-radius: 8px; transition: all 0.3s ease; }
+        body { background: #000; color: #00FF00; font-family: 'Courier New', monospace; padding: 20px; min-height: 100vh; }
+       .header { text-align: center; font-size: 28px; margin: 20px 0; font-weight: bold; }
+       .tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+       .tabs-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+       .tab { padding: 12px; text-align: center; cursor: pointer; border: 1px solid #00FF00; background: #000; }
+       .tab.active { background: #00FF00; color: #000; font-weight: bold; }
+       .content { padding: 20px; border: 1px solid #00FF00; border-radius: 8px; }
+       .title { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
+        input, select, button, textarea { width: 100%; padding: 12px; margin: 8px 0; font-size: 16px; background: #000; color: #00FF00; border: 1px solid #00FF00; border-radius: 8px; }
         button { cursor: pointer; font-weight: bold; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .footer { text-align: center; margin-top: 30px; font-size: 14px; opacity: 0.8; }
-        .hidden { display: none; }
-        .objetivo { padding: 15px; margin: 15px 0; border-radius: 8px; }
-        .obj-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .progress { width: 100%; height: 8px; margin: 10px 0; border-radius: 4px; overflow: hidden; }
-        .progress-bar { height: 100%; transition: width 0.3s ease; }
-        .animo-btn { font-size: 30px; padding: 8px; }
-        .coach-msg { padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
-        .spith-box { padding: 15px; margin: 15px 0; font-style: italic; font-size: 18px; line-height: 1.5; border-radius: 0 8px 8px 0; }
-        .plan-box { padding: 15px; margin: 15px 0; border-radius: 8px; }
-        .orden-box { padding: 15px; margin: 15px 0; border-radius: 8px; }
-        .consejo-item { padding: 15px; margin: 15px 0; border-radius: 8px; }
-        .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
-        .stat-line { display: flex; justify-content: space-between; margin: 5px 0; padding: 8px 0; }
-        .hr { margin: 20px 0; }
-        .paywall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; background: #000; }
-        .paywall.show { display: flex; }
-        .paywall-box { padding: 30px; text-align: center; max-width: 400px; border-radius: 16px; }
-        .theme-card { border: 2px solid; padding: 20px; margin: 15px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }
-        .theme-card:hover { transform: translateY(-4px); }
-        .theme-card.active { box-shadow: 0 0 30px; }
-        .theme-preview { width: 100%; height: 80px; border-radius: 8px; margin: 10px 0; }
+        button.primary { background: #00FF00; color: #000; }
+        button.secondary { background: #333; }
+        button.danger { background: #FF0000; color: #fff; }
+        button.like { background: #FF00FF; color: #000; }
+       .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+       .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+       .footer { text-align: center; margin-top: 30px; font-size: 14px; opacity: 0.8; }
+       .hidden { display: none; }
+       .objetivo { border: 1px solid #00FF00; padding: 15px; margin: 15px 0; border-radius: 8px; }
+       .obj-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+       .progress { width: 100%; height: 8px; background: #333; margin: 10px 0; border-radius: 4px; overflow: hidden; }
+       .progress-bar { height: 100%; background: #00FF00; transition: width 0.3s ease; }
+       .animo-btn { font-size: 30px; padding: 8px; }
+       .animo-btn.selected { background: #00FF00; color: #000; }
+       .coach-msg { border-left: 3px solid #00FF00; padding: 15px; margin: 15px 0; background: rgba(0,255,0,0.1); }
+       .spith-box { border-left: 3px solid #00FF00; padding: 15px; margin: 15px 0; font-style: italic; font-size: 18px; line-height: 1.5; }
+       .plan-box { border: 1px solid #00FF00; padding: 15px; margin: 15px 0; }
+       .orden-box { border: 1px solid #FF0000; padding: 15px; margin: 15px 0; }
+       .consejo-item { border: 1px solid #00FF00; padding: 15px; margin: 15px 0; }
+       .consejo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
+       .stat-line { display: flex; justify-content: space-between; margin: 5px 0; padding: 8px 0; border-bottom: 1px solid #333; }
+       .hr { border-top: 1px solid #00FF00; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div id="paywall" class="paywall">
-        <div class="paywall-box">
-            <div style="font-size:24px;font-weight:bold;margin-bottom:20px;">⚡ TRIAL 20Y TERMINADO</div>
-            <div style="margin-bottom:20px;">Tus 7 días gratis expiraron.<br><br>Desbloquea 20Y PULSE PRO:</div>
-            <div style="text-align:left;margin:20px 0;">
-                ✅ Objetivos ilimitados<br>
-                ✅ Plan Estratégico 72h<br>
-                ✅ Coach IA ilimitado<br>
-                ✅ Temas Premium<br>
-                ✅ Exportar PDF
-            </div>
-            <div style="font-size:28px;margin:20px 0;">$9.99/mes</div>
-            <button class="primary" onclick="alert('Stripe: Conecta tu cuenta en Render Dashboard > Environment > STRIPE_KEY')">DESBLOQUEAR PRO</button>
-            <div style="font-size:12px;margin-top:20px;opacity:0.7;">20Y CORE SYSTEMS</div>
-        </div>
-    </div>
-
-    <div class="header">20Y PULSE <span id="trial-badge" style="font-size:14px;"></span></div>
+    <div class="header">20Y PULSE</div>
     
     <div class="tabs">
         <div class="tab active" onclick="showTab('usuario')">USUARIO</div>
@@ -75,7 +53,6 @@
     <div class="tabs-2">
         <div class="tab" onclick="showTab('ejecucion')">EJECUCIÓN</div>
         <div class="tab" onclick="showTab('coach')">COACH</div>
-        <div class="tab" onclick="showTab('tema')">TEMA</div>
     </div>
 
     <div id="usuario" class="content">
@@ -95,11 +72,10 @@
         </select>
         <div class="row">
             <input type="number" id="edad" placeholder="Edad" value="50">
-            <input type="text" id="ratio" placeholder="Ratio" value="4/4">
+            <input type="text" id="ratio" placeholder="Ratio" value="4/20">
         </div>
         <input type="text" id="power" placeholder="Power %" value="98%">
         <button class="primary" onclick="guardarUsuario()">GUARDAR</button>
-        <button class="share" onclick="compartirPerfil()">📤 INVITAR A MI EQUIPO 20Y</button>
     </div>
 
     <div id="objetivos" class="content hidden">
@@ -113,32 +89,27 @@
         <div id="coach-msg" class="coach-msg hidden"></div>
         <div id="lista-objetivos"></div>
         <button class="primary" onclick="nuevoObjetivo()">+ NUEVO OBJETIVO</button>
-        <div class="hr"></div>
-        <div class="title">TEST DE REVISIÓN</div>
-        <button class="primary" onclick="revision20Y()">EJECUTAR REVISIÓN 20Y</button>
     </div>
 
     <div id="spith" class="content hidden">
         <div class="title">20Y SPITH</div>
-        <div class="spith-box" id="spith-texto">Samuel Suazo, 2/3 cazados. 50 20Y. No pares ahora.</div>
+        <div class="spith-box" id="spith-texto">Mírate al espejo Samuel Suazo. Ese es tu único competidor. Hoy le ganas. Power 98%. Ratio 4/20. Leyenda activada.<br><br>0/1 objetivos cazados hoy. No pares ahora.</div>
         <select id="spith-hora">
             <option value="09:00">Diario 09:00h</option>
             <option value="12:00">Diario 12:00h</option>
             <option value="18:00">Diario 18:00h</option>
             <option value="21:00">Diario 21:00h</option>
         </select>
-        <button class="primary" id="btn-notif" onclick="activarNotificaciones()">ACTIVAR NOTIFICACIONES</button>
+        <button class="primary" id="btn-notif" onclick="activarNotificaciones()">NOTIFICACIONES ACTIVAS</button>
         <button class="secondary" onclick="generarSpith()">GENERAR SPITH AHORA</button>
-        <button class="share" onclick="compartirSpith()">📤 COMPARTIR SPITH</button>
     </div>
 
     <div id="ejecucion" class="content hidden">
         <div class="title">ORDEN DE EJECUCIÓN 20Y</div>
         <div class="stat-line"><span>Puntos 20Y:</span><span id="puntos">50</span></div>
-        <div class="stat-line"><span>Objetivos activos:</span><span id="obj-activos">3</span></div>
-        <div class="stat-line"><span>Completados:</span><span id="obj-completados">2</span></div>
-        <div class="stat-line"><span>Stability:</span><span id="stability">98%</span></div>
-        <div class="stat-line"><span>Referidos:</span><span id="referidos">0</span></div>
+        <div class="stat-line"><span>Objetivos activos:</span><span id="obj-activos">1</span></div>
+        <div class="stat-line"><span>Completados:</span><span id="obj-completados">0</span></div>
+        <div class="stat-line"><span>Stability:</span><span id="stability">45%</span></div>
         
         <div class="plan-box hidden" id="plan-estrategico">
             <div style="font-weight:bold;margin-bottom:10px;">📋 PLAN ESTRATÉGICO 20Y</div>
@@ -153,15 +124,12 @@
         <button class="primary" onclick="generarOrden()">GENERAR ORDEN DE EJECUCIÓN</button>
         <button class="primary" onclick="generarPlan()">GENERAR PLAN ESTRATÉGICO</button>
         <button class="secondary" onclick="marcarCumplida()">MARCAR ORDEN CUMPLIDA +10 PUNTOS</button>
-        <button class="share" onclick="compartirLogro()">📤 COMPARTIR LOGRO 20Y</button>
     </div>
 
     <div id="coach" class="content hidden">
-        <div class="title">COACH 20Y PULSE</div>
+        <div class="title">🧠 CONSEJO TÁCTICO</div>
         <div class="coach-msg" id="consejo-actual">
-            <div style="font-weight:bold;margin-bottom:10px;">🧠 CONSEJO TÁCTICO</div>
             <div id="consejo-texto">Toca GENERAR CONSEJO para que el Cerebro 20Y analice tu estado.</div>
-            <button class="like hidden" id="btn-like" onclick="darLike()">❤️ ME GUSTA</button>
         </div>
         <button class="primary" onclick="generarConsejo()">GENERAR CONSEJO 20Y + NOTIFICAR</button>
         <button class="secondary" onclick="borrarHistorial()">BORRAR HISTORIAL</button>
@@ -170,212 +138,40 @@
         <div id="historial-coach"></div>
     </div>
 
-    <div id="tema" class="content hidden">
-        <div class="title">TEMA 20Y PULSE</div>
-        <div style="margin-bottom:20px;">Elige el fondo y tipografía que refleje tu perfil 20Y:</div>
-        
-        <div class="title" style="font-size:16px;margin-top:20px;">1. TIPOGRAFÍA</div>
-        <select id="select-font" onchange="cambiarFont(this.value)">
-            <option value="Space Grotesk">Space Grotesk - Premium CEO</option>
-            <option value="JetBrains Mono">JetBrains Mono - Hacker Táctico</option>
-            <option value="Courier New">Courier New - Terminal Clásico</option>
-            <option value="Inter">Inter - Minimal Moderno</option>
-        </select>
-        
-        <div class="title" style="font-size:16px;margin-top:20px;">2. FONDO</div>
-        <div id="lista-temas"></div>
-        
-        <div class="title" style="font-size:16px;margin-top:20px;">3. HOVER EFFECTS</div>
-        <select id="select-hover" onchange="cambiarHover(this.value)">
-            <option value="glow">Glow Dorado - Premium</option>
-            <option value="lift">Lift 3D - Táctico</option>
-            <option value="none">Sin efectos - Minimal</option>
-        </select>
-    </div>
-
     <div class="footer">
         20Y CORE SYSTEMS<br>
         SALT, GIRONA, SPAIN
     </div>
 
     <script>
-        let objetivos = [];
-        let animo = '';
+        let objetivos = [{id: 1, nombre: 'vender 20y-pulse', categoria: 'finanzas', progreso: 0, completado: false, descripcion: 'será la herramienta que use para tener mejores estados financieros y me abrirá puertas a mejors entornos'}];
+        let animo = 'alto';
         let puntos = 50;
         let consejos = [];
-        let consejoActualId = null;
-        let referidos = 0;
-        let temaActual = 'ceo';
-        let fontActual = 'Space Grotesk';
-        let hoverActual = 'glow';
-        
-        const TEMAS = {
-            ceo: {
-                nombre: 'CEO PREMIUM',
-                desc: 'Oro + Negro. Poder silencioso.',
-                bg: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)',
-                color: '#E0E0E0',
-                accent: '#FFD700',
-                accent2: '#FFA500',
-                border: 'rgba(255, 215, 0, 0.3)',
-                card: 'rgba(26, 26, 26, 0.6)',
-                shadow: '0 0 30px rgba(255, 215, 0, 0.4)'
-            },
-            tactico: {
-                nombre: 'OPERATOR TÁCTICO',
-                desc: 'Verde militar. War room.',
-                bg: '#0D1117',
-                color: '#C9D1D9',
-                accent: '#39FF14',
-                accent2: '#FF3131',
-                border: 'rgba(57, 255, 20, 0.3)',
-                card: 'rgba(13, 17, 23, 0.8)',
-                shadow: '0 0 20px rgba(57, 255, 20, 0.3)'
-            },
-            minimal: {
-                nombre: 'LEYENDA MINIMAL',
-                desc: 'Negro puro. Brutalista.',
-                bg: '#000000',
-                color: '#00FF00',
-                accent: '#00FF00',
-                accent2: '#00FF00',
-                border: 'rgba(0, 255, 0, 0.5)',
-                card: 'rgba(0, 0, 0, 0.8)',
-                shadow: '0 0 15px rgba(0, 255, 0, 0.3)'
-            }
-        };
         
         window.onload = () => {
-            checkTrial();
-            checkReferral();
-            cargarTema();
             cargarDatos();
             checkNotificaciones();
             actualizarStats();
             renderHistorialCoach();
-            renderTemas();
+            if(animo) document.getElementById('animo-'+animo).classList.add('selected');
+            updateCoachMsg();
+            generarSpith();
         };
 
-        function cargarTema() {
-            temaActual = localStorage.getItem('20y_tema') || 'ceo';
-            fontActual = localStorage.getItem('20y_font') || 'Space Grotesk';
-            hoverActual = localStorage.getItem('20y_hover') || 'glow';
-            aplicarTema();
-        }
-
-        function aplicarTema() {
-            const t = TEMAS[temaActual];
-            const fontUrl = fontActual.replace(' ', '+');
-            document.getElementById('font-link').href = `https://fonts.googleapis.com/css2?family=${fontUrl}:wght@400;700&display=swap`;
-            
-            let css = `
-                body { background: ${t.bg}; color: ${t.color}; font-family: '${fontActual}', monospace; }
-                body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 50%, ${t.accent}08 0%, transparent 50%), radial-gradient(circle at 80% 80%, ${t.accent2}05 0%, transparent 50%); pointer-events: none; z-index: -1; }
-                .header { color: ${t.accent}; text-shadow: 0 0 20px ${t.accent}4D; }
-                .tab { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(10px); }
-                .tab:hover { border-color: ${t.accent}; background: ${t.accent}1A; }
-                .tab.active { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; box-shadow: ${t.shadow}; }
-                .content { border: 1px solid ${t.border}; background: ${t.card}; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
-                .title { color: ${t.accent}; }
-                input, select, textarea { background: rgba(0, 0, 0, 0.4); border: 1px solid ${t.border}; color: ${t.color}; }
-                input:focus, select:focus, textarea:focus { outline: none; border-color: ${t.accent}; box-shadow: 0 0 15px ${t.accent}33; }
-                button.primary { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; border: none; box-shadow: 0 4px 15px ${t.accent}4D; }
-                button.primary:hover { box-shadow: 0 6px 25px ${t.accent}80; transform: translateY(-2px); }
-                button.secondary { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
-                button.danger { background: rgba(255, 49, 49, 0.1); border-color: #FF3131; color: #FF3131; }
-                button.like { background: rgba(255, 0, 255, 0.1); border-color: #FF00FF; color: #FF00FF; }
-                button.like.active { background: #FF00FF; color: #000; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
-                button.share { background: rgba(0, 136, 255, 0.1); border-color: #0088FF; color: #0088FF; }
-                .objetivo { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); }
-                .progress { background: rgba(255, 255, 255, 0.1); }
-                .progress-bar { background: linear-gradient(90deg, ${t.accent} 0%, ${t.accent2} 100%); box-shadow: 0 0 10px ${t.accent}80; }
-                .animo-btn { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
-                .animo-btn.selected { background: linear-gradient(135deg, ${t.accent} 0%, ${t.accent2} 100%); color: #000; box-shadow: ${t.shadow}; }
-                .coach-msg { border-left: 3px solid ${t.accent}; background: ${t.accent}0D; }
-                .spith-box { border-left: 3px solid ${t.accent}; background: ${t.accent}0D; }
-                .plan-box { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
-                .orden-box { border: 1px solid #FF3131; background: rgba(255, 49, 49, 0.05); box-shadow: 0 0 20px rgba(255, 49, 49, 0.2); }
-                .consejo-item { border: 1px solid ${t.border}; background: rgba(0, 0, 0, 0.3); }
-                .stat-line { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-                .hr { border-top: 1px solid ${t.border}; }
-                .paywall { background: #000; }
-                .paywall-box { border: 2px solid ${t.accent}; background: rgba(26, 26, 26, 0.9); box-shadow: 0 0 60px ${t.accent}4D; }
-                .theme-card { border-color: ${t.border}; background: ${t.card}; }
-                .theme-card.active { border-color: ${t.accent}; box-shadow: ${t.shadow}; }
-            `;
-            
-            if(hoverActual === 'glow') {
-                css += `.tab:hover, button:hover { box-shadow: ${t.shadow}; }`;
-            } else if(hoverActual === 'lift') {
-                css += `.tab:hover, button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }`;
-            }
-            
-            document.getElementById('dynamic-theme').innerHTML = css;
-        }
-
-        function cambiarTema(nuevo) { temaActual = nuevo; localStorage.setItem('20y_tema', nuevo); aplicarTema(); renderTemas(); }
-        function cambiarFont(nueva) { fontActual = nueva; localStorage.setItem('20y_font', nueva); aplicarTema(); }
-        function cambiarHover(nuevo) { hoverActual = nuevo; localStorage.setItem('20y_hover', nuevo); aplicarTema(); }
-
-        function renderTemas() {
-            const lista = document.getElementById('lista-temas');
-            lista.innerHTML = '';
-            Object.keys(TEMAS).forEach(key => {
-                const t = TEMAS[key];
-                const active = key === temaActual ? 'active' : '';
-                lista.innerHTML += `<div class="theme-card ${active}" onclick="cambiarTema('${key}')"><div style="font-weight:bold;font-size:18px;">${t.nombre}</div><div style="font-size:14px;opacity:0.7;margin:8px 0;">${t.desc}</div><div class="theme-preview" style="background:${t.bg};border:1px solid ${t.border};"></div></div>`;
-            });
-            document.getElementById('select-font').value = fontActual;
-            document.getElementById('select-hover').value = hoverActual;
-        }
-
-        function checkTrial() {
-            const firstUse = localStorage.getItem('20y_first_use');
-            if(!firstUse) {
-                localStorage.setItem('20y_first_use', Date.now());
-                document.getElementById('trial-badge').innerText = '(Día 1/7 GRATIS)';
-                return;
-            }
-            const days = Math.floor((Date.now() - parseInt(firstUse)) / 86400000);
-            if(days >= 7 &&!localStorage.getItem('20y_pro')) {
-                document.getElementById('paywall').classList.add('show');
-            } else {
-                document.getElementById('paywall').classList.remove('show');
-                document.getElementById('trial-badge').innerText = `(Día ${days+1}/7 GRATIS)`;
-            }
-        }
-
-        function checkReferral() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const ref = urlParams.get('ref');
-            if(ref &&!localStorage.getItem('20y_referred')) {
-                localStorage.setItem('20y_referred', ref);
-                puntos += 10;
-                referidos = parseInt(localStorage.getItem('20y_referidos') || '0') + 1;
-                localStorage.setItem('20y_referidos', referidos);
-                alert(`+10 PUNTOS 20Y. Invitado por ${ref}`);
-            }
-            referidos = parseInt(localStorage.getItem('20y_referidos') || '0');
-        }
-
         function cargarDatos() {
-            const user = JSON.parse(localStorage.getItem('20y_user') || '{}');
+            const user = JSON.parse(localStorage.getItem('20y_user_v9') || '{}');
             if(user.nombre) document.getElementById('nombre').value = user.nombre;
             if(user.tag) document.getElementById('tag').value = user.tag;
             if(user.perfil) document.getElementById('perfil').value = user.perfil;
             if(user.edad) document.getElementById('edad').value = user.edad;
             if(user.ratio) document.getElementById('ratio').value = user.ratio;
             if(user.power) document.getElementById('power').value = user.power;
-            
-            objetivos = JSON.parse(localStorage.getItem('20y_objetivos') || '[]');
-            animo = localStorage.getItem('20y_animo') || '';
-            puntos = parseInt(localStorage.getItem('20y_puntos') || '50');
-            consejos = JSON.parse(localStorage.getItem('20y_consejos') || '[]');
-            
-            if(animo) document.getElementById('animo-'+animo).classList.add('selected');
+            objetivos = JSON.parse(localStorage.getItem('20y_objetivos_v9') || JSON.stringify(objetivos));
+            animo = localStorage.getItem('20y_animo_v9') || 'alto';
+            puntos = parseInt(localStorage.getItem('20y_puntos_v9') || '50');
+            consejos = JSON.parse(localStorage.getItem('20y_consejos_v9') || '[]');
             renderObjetivos();
-            updateCoachMsg();
-            generarSpith();
         }
 
         function showTab(tab) {
@@ -387,58 +183,192 @@
 
         function guardarUsuario() {
             const data = { nombre: document.getElementById('nombre').value, tag: document.getElementById('tag').value, perfil: document.getElementById('perfil').value, edad: document.getElementById('edad').value, ratio: document.getElementById('ratio').value, power: document.getElementById('power').value };
-            localStorage.setItem('20y_user', JSON.stringify(data));
-            alert('PERFIL 20Y GUARDADO: ' + data.perfil);
+            localStorage.setItem('20y_user_v9', JSON.stringify(data));
+            alert('PERFIL 20Y GUARDADO');
             generarSpith();
         }
 
         function setAnimo(nivel) {
             animo = nivel;
-            localStorage.setItem('20y_animo', nivel);
+            localStorage.setItem('20y_animo_v9', nivel);
             document.querySelectorAll('.animo-btn').forEach(b => b.classList.remove('selected'));
             document.getElementById('animo-'+nivel).classList.add('selected');
             updateCoachMsg();
         }
 
         function updateCoachMsg() {
-            if(!animo) return;
-            const msgs = { bajo: 'Ánimo BAJO detectado. COACH: Samuel, el dolor es temporal. Tu imperio es permanente. 1 micro-acción AHORA.', medio: 'Ánimo MEDIO. COACH: Estás en neutro. Neutro es muerte lenta. Elige: BAJO o ALTO. No existe medio.', alto: 'Ánimo ALTO. COACH: ÓPTIMO. Aprovecha este momentum. Hoy cazas 2 objetivos. Ejecuta.' };
-            document.getElementById('coach-msg').innerHTML = msgs[animo];
+            const msgs = { 
+                bajo: 'COACH 20Y:\n😢 ÁNIMO BAJO = MODO SUPERVIVENCIA. Solo 1 micro-acción. No juzgues. Ejecuta.', 
+                medio: 'COACH 20Y:\n😐 ÁNIMO MEDIO = MODO NEUTRO. Peligroso. Elige BAJO o ALTO. Decide.', 
+                alto: 'COACH 20Y:\n🚀 ÁNIMO ALTO = MODO LEYENDA ACTIVO. Aprovecha el pulse. Doble ejecución hoy. DOMINA.' 
+            };
+            document.getElementById('coach-msg').innerText = msgs[animo];
             document.getElementById('coach-msg').classList.remove('hidden');
         }
 
         function nuevoObjetivo() {
             const nombre = prompt('OBJETIVO 20Y:');
             if(!nombre) return;
-            objetivos.push({id: Date.now(), nombre, progreso: 0, completado: false});
-            localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
+            const categoria = prompt('CATEGORÍA:') || 'general';
+            objetivos.push({id: Date.now(), nombre, categoria, progreso: 0, completado: false, descripcion: ''});
+            localStorage.setItem('20y_objetivos_v9', JSON.stringify(objetivos));
             renderObjetivos();
             actualizarStats();
         }
 
         function renderObjetivos() {
             const lista = document.getElementById('lista-objetivos');
-            lista.innerHTML = objetivos.map(o => `<div class="objetivo"><div class="obj-header"><strong>${o.nombre}</strong><span>${o.progreso}%</span></div><div class="progress"><div class="progress-bar" style="width:${o.progreso}%"></div></div><div class="row"><button class="secondary" onclick="updateProgreso(${o.id}, 25)">+25%</button><button class="danger" onclick="borrarObjetivo(${o.id})">BORRAR</button></div></div>`).join('');
+            lista.innerHTML = objetivos.map(o => `
+                <div class="objetivo">
+                    <div class="obj-header">
+                        <strong>${o.nombre}</strong>
+                        <span>${o.categoria}</span>
+                    </div>
+                    <div class="progress"><div class="progress-bar" style="width:${o.progreso}%"></div></div>
+                    <div class="row">
+                        <button class="secondary" onclick="updateProgreso(${o.id}, 1)">+1</button>
+                        <button class="secondary" onclick="editarObjetivo(${o.id})">EDITAR</button>
+                        <button class="danger" onclick="borrarObjetivo(${o.id})">X</button>
+                    </div>
+                    <div style="font-size:12px;margin-top:8px;opacity:0.8;">${o.progreso}/1 - ${o.descripcion}</div>
+                </div>
+            `).join('');
         }
 
         function updateProgreso(id, delta) {
             const obj = objetivos.find(o => o.id === id);
             if(obj) {
-                obj.progreso = Math.min(100, obj.progreso + delta);
-                if(obj.progreso >= 100 &&!obj.completado) {
+                obj.progreso = Math.min(1, obj.progreso + delta);
+                if(obj.progreso >= 1 &&!obj.completado) {
                     obj.completado = true;
                     puntos += 20;
-                    localStorage.setItem('20y_puntos', puntos);
+                    localStorage.setItem('20y_puntos_v9', puntos);
                     alert('+20 PUNTOS 20Y. OBJETIVO CAZADO.');
                 }
-                localStorage.setItem('20y_objetivos', JSON.stringify(objetivos));
+                localStorage.setItem('20y_objetivos_v9', JSON.stringify(objetivos));
                 renderObjetivos();
                 actualizarStats();
             }
         }
 
-        function borrarObjetivo(id) { objetivos = objetivos.filter(o => o.id !== id); localStorage.setItem('20y_objetivos', JSON.stringify(objetivos)); renderObjetivos(); actualizarStats(); }
-        function actualizarStats() { const activos = objetivos.filter(o =>!o.completado).length; const completados = objetivos.filter(o => o.completado).length; document.getElementById('puntos').innerText = puntos; document.getElementById('obj-activos').innerText = activos; document.getElementById('obj-completados').innerText = completados; document.getElementById('stability').innerText = document.getElementById('power').value; document.getElementById('referidos').innerText = referidos; }
-        function revision20Y() { const completados = objetivos.filter(o => o.completado).length; const total = objetivos.length; const ratio = total > 0 ? Math.round((completados/total)*100) : 0; alert(`REVISIÓN 20Y\nCompletados: ${completados}/${total}\nRatio: ${ratio}%\nPuntos: ${puntos}\n\n${ratio >= 80 ? 'LEYENDA' : ratio >= 50 ? 'OPERATOR' : 'SIGUE CAZANDO'}`); }
-        function generarSpith() { document.getElementById('spith-texto').innerText = 'Samuel Suazo, 2/3 cazados. 50 20Y. No pares ahora.'; }
-        function activarNotificaciones() { if('Notification' in window) { Notification.requestPermission().then(p => { if(p === 'granted') { alert('NOTIFICACIONES ACTIVADAS'); new Notification('20Y PULSE', {body: 'Sistema activo', icon
+        function editarObjetivo(id) {
+            const obj = objetivos.find(o => o.id === id);
+            const desc = prompt('DESCRIPCIÓN:', obj.descripcion);
+            if(desc!== null) {
+                obj.descripcion = desc;
+                localStorage.setItem('20y_objetivos_v9', JSON.stringify(objetivos));
+                renderObjetivos();
+            }
+        }
+
+        function borrarObjetivo(id) { 
+            objetivos = objetivos.filter(o => o.id!== id); 
+            localStorage.setItem('20y_objetivos_v9', JSON.stringify(objetivos)); 
+            renderObjetivos(); 
+            actualizarStats(); 
+        }
+
+        function actualizarStats() { 
+            const activos = objetivos.filter(o =>!o.completado).length; 
+            const completados = objetivos.filter(o => o.completado).length; 
+            document.getElementById('puntos').innerText = puntos; 
+            document.getElementById('obj-activos').innerText = activos; 
+            document.getElementById('obj-completados').innerText = completados; 
+            document.getElementById('stability').innerText = Math.round(45 + (completados*10)) + '%';
+        }
+
+        function generarSpith() {
+            const nombre = document.getElementById('nombre').value;
+            const power = document.getElementById('power').value;
+            const ratio = document.getElementById('ratio').value;
+            const completados = objetivos.filter(o => o.completado).length;
+            const total = objetivos.length;
+            document.getElementById('spith-texto').innerText = `Mírate al espejo ${nombre}. Ese es tu único competidor. Hoy le ganas. Power ${power}. Ratio ${ratio}. Leyenda activada.\n\n${completados}/${total} objetivos cazados hoy. No pares ahora.`;
+        }
+
+        function activarNotificaciones() {
+            if('Notification' in window) {
+                Notification.requestPermission().then(p => {
+                    if(p === 'granted') {
+                        alert('NOTIFICACIONES ACTIVAS');
+                        document.getElementById('btn-notif').innerText = 'NOTIFICACIONES ACTIVAS';
+                        new Notification('20Y PULSE v9.6', {body: 'Sistema activo', icon: 'icon-192.png'});
+                    }
+                });
+            }
+        }
+
+        function generarOrden() {
+            document.getElementById('orden-dia').classList.remove('hidden');
+            document.getElementById('orden-contenido').innerText = 'HOY: Cazar objetivo "vender 20y-pulse". 1 llamada. 1 email. Sin excusas.';
+        }
+
+        function generarPlan() {
+            document.getElementById('plan-estrategico').classList.remove('hidden');
+            document.getElementById('plan-contenido').innerHTML = `Enfoque 72h para subir Stability Score:<br><br>1. Paso 1 - CLARIDAD: Define exactamente qué significa "vender 20y-pulse". Métrica: de 0 a 1. Razón: será la erramienta que use para tener mejores estados financieros y me abrirá puertas a mejors entornos<br><br>2. Paso 2 - ACCIÓN MÍNIMA: Ejecuta 1 unidad HOY. Sin perfección. Solo movimiento. Categoría: finanzas<br><br>3. Paso 3 - REVISIÓN 24H: Mañana marca +1 si ejecutaste. Ajusta meta si hace falta. Sin culpa, solo data.<br><br>Ejecuta Paso 1 hoy. Sin distracciones.`;
+        }
+
+        function marcarCumplida() {
+            puntos += 10;
+            localStorage.setItem('20y_puntos_v9', puntos);
+            actualizarStats();
+            alert('+10 PUNTOS 20Y');
+        }
+
+        function generarConsejo() {
+            const edad = document.getElementById('edad').value;
+            const texto = `${edad} años no es excusa. Es ventaja. Experiencia + Ejecución = Imparable. Hoy: 1 acción que tu yo de 20 no haría.`;
+            document.getElementById('consejo-texto').innerText = texto;
+            const nuevo = { fecha: new Date().toLocaleString('es-ES'), texto: texto, likes: 0 };
+            consejos.unshift(nuevo);
+            localStorage.setItem('20y_consejos_v9', JSON.stringify(consejos));
+            renderHistorialCoach();
+            if('Notification' in window && Notification.permission === 'granted') {
+                new Notification('20Y PULSE', {body: texto, icon: 'icon-192.png'});
+            }
+        }
+
+        function darLike() {
+            if(consejos.length > 0) {
+                consejos[0].likes++;
+                localStorage.setItem('20y_consejos_v9', JSON.stringify(consejos));
+                renderHistorialCoach();
+            }
+        }
+
+        function borrarHistorial() {
+            consejos = [];
+            localStorage.setItem('20y_consejos_v9', JSON.stringify(consejos));
+            renderHistorialCoach();
+        }
+
+        function renderHistorialCoach() {
+            document.getElementById('historial-coach').innerHTML = consejos.map((c,i) => `
+                <div class="consejo-item">
+                    <div class="consejo-header">
+                        <span>${c.fecha}</span>
+                        <button class="like" onclick="darLikeHist(${i})">${c.likes || 0} ❤️</button>
+                    </div>
+                    ${c.texto}
+                </div>
+            `).join('');
+        }
+
+        function darLikeHist(i) {
+            consejos[i].likes = (consejos[i].likes || 0) + 1;
+            localStorage.setItem('20y_consejos_v9', JSON.stringify(consejos));
+            renderHistorialCoach();
+        }
+
+        function checkNotificaciones() {
+            if('Notification' in window && Notification.permission === 'granted') {
+                document.getElementById('btn-notif').innerText = 'NOTIFICACIONES ACTIVAS';
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('./service-worker.js');
+        }
+    </script>
+</body>
+</html>
